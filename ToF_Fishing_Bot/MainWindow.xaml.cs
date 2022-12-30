@@ -294,33 +294,68 @@ namespace ToF_Fishing_Bot
 
         private void StartBtn_Click(object sender, RoutedEventArgs e)
         {
-            if(!fishBot.isRunning)
+            if(SanityCheck())
             {
-                fishBot.isRunning = true;
-                StartLabel.Text = "Stop\nFishing";
-                if (!fishBotThread.IsAlive)
+                if (!fishBot.isRunning)
                 {
-                    fishBot.lastMousePosition = mousePositionWithLeftClick;
-                    fishBotThread.Start();
+                    fishBot.isRunning = true;
+                    StartLabel.Text = "Stop\nFishing";
+                    if (!fishBotThread.IsAlive)
+                    {
+                        fishBot.lastMousePosition = mousePositionWithLeftClick;
+                        fishBotThread.Start();
+                    }
                 }
-            } else
-            {
-                fishBot.Stop();
-                StartLabel.Text = "Start\nFishing";
-                fishBot = new FishingThread(
-                    settings, 
-                    LeftBox, 
-                    RightBox, 
-                    cursor, 
-                    bar, 
-                    StatusLabel, 
-                    middleBarImage, 
-                    cursorImage, 
-                    FishStaminaColorBtn, 
-                    PlayerStaminaColorBtn);
-                fishBotThread = new Thread(fishBot.Start);
+                else
+                {
+                    fishBot.Stop();
+                    StartLabel.Text = "Start\nFishing";
+                    fishBot = new FishingThread(
+                        settings,
+                        LeftBox,
+                        RightBox,
+                        cursor,
+                        bar,
+                        StatusLabel,
+                        middleBarImage,
+                        cursorImage,
+                        FishStaminaColorBtn,
+                        PlayerStaminaColorBtn);
+                    fishBotThread = new Thread(fishBot.Start);
+                }
             }
-            
+        }
+
+        private bool SanityCheck()
+        {
+            var noErrors = true;
+            var message = "";
+            if(settings.LowerRightBarPoint_Y < settings.UpperLeftBarPoint_Y)
+            {
+                message += "Lower Right Bar Point Y value must be greater than Upper Left Bar Point.\n";
+                noErrors = false;
+            }
+            if (settings.LowerRightBarPoint_X < settings.UpperLeftBarPoint_X)
+            {
+                message += "Lower Right Bar Point X value must be greater than Upper Left Bar Point.\n";
+                noErrors = false;
+            }
+            if (settings.LowerRightBarPoint_Y > settings.FishStaminaPoint_Y)
+            {
+                message += "Fish Stamina point is not the lowest point\n";
+                noErrors = false;
+            }
+            if (settings.LowerRightBarPoint_Y > settings.PlayerStaminaPoint_Y)
+            {
+                message += "Player Stamina point is not the lowest point\n";
+                noErrors = false;
+            }
+
+            if (!noErrors)
+            {
+                MessageBox.Show(message, "Sanity Checks", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            return noErrors;
         }
     }
 }

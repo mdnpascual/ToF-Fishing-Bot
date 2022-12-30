@@ -94,7 +94,7 @@ namespace ToF_Fishing_Bot
                                     settings.LowerRightBarPoint_Y - settings.UpperLeftBarPoint_Y);
             upperLeftDestination = new System.Drawing.Point(0, 0);*/
 
-            bmp = new Bitmap(settings.LowerRightBarPoint_X - settings.UpperLeftBarPoint_X + 20, settings.LowerRightBarPoint_Y - settings.UpperLeftBarPoint_Y);
+            /*bmp = new Bitmap(settings.LowerRightBarPoint_X - settings.UpperLeftBarPoint_X + 20, settings.LowerRightBarPoint_Y - settings.UpperLeftBarPoint_Y);*/
             screenStateLogger = new ScreenStateLogger();
         }
 
