@@ -358,7 +358,7 @@ namespace ToF_Fishing_Bot
             Cv2.InRange(frame, lowerBoundsColor, upperBoundsColor, masked);
             /*Cv2.ImShow("masked", masked);*/
 
-            var lineDetect = FastLineDetector.Create();
+            var lineDetect = FastLineDetector.Create(lengthThreshold: 4);
             try
             {
                 var lines = lineDetect.Detect(masked);
@@ -402,7 +402,7 @@ namespace ToF_Fishing_Bot
             var masked = new Mat();
             Cv2.InRange(frame, lowerBoundsColor, upperBoundsColor, masked);
             /*Cv2.ImShow("masked", masked);*/
-            var lineDetect = FastLineDetector.Create();
+            var lineDetect = FastLineDetector.Create(lengthThreshold: 4);
 
             try
             {
@@ -432,7 +432,6 @@ namespace ToF_Fishing_Bot
                             cursorImage.Source = bi2;
                         });
                     });
-
 
                     return (minMiddleBar_X + maxMiddleBar_X) / 2.0;
                 }
