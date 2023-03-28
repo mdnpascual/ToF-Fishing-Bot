@@ -34,6 +34,9 @@ namespace ToF_Fishing_Bot
         private bool APressed = false;
         private bool DPressed = false;
 
+        private bool PlayerStamina_lagCompensationDone = false;
+        private DispatcherTimer LagCompensationDelay;
+
         private System.Windows.Media.Color green = System.Windows.Media.Color.FromArgb(255, 0, 255, 0);
 
         /*private System.Drawing.Point upperLeftSource;
@@ -158,10 +161,21 @@ namespace ToF_Fishing_Bot
                 switch (state)
                 {
                     case FishingState.NotFishing:
-                        if (fishStaminaDetected && playerStaminaDetected) state = FishingState.Fishing;
+                        if (fishStaminaDetected && playerStaminaDetected) { 
+                            state = FishingState.Fishing;
+                            PlayerStamina_lagCompensationDone = false;
+                            LagCompensationDelay = new DispatcherTimer(DispatcherPriority.Send, dis);
+                            LagCompensationDelay.Interval = new TimeSpan(0,0,0,5);
+                            LagCompensationDelay.Tick += (o, e) =>
+                            {
+                                PlayerStamina_lagCompensationDone = true;
+                                LagCompensationDelay.Stop();
+                            };
+                            LagCompensationDelay.Start();
+                        }
                         break;
                     case FishingState.Fishing:
-                        if (!fishStaminaDetected && playerStaminaDetected)
+                        if (!fishStaminaDetected && playerStaminaDetected && PlayerStamina_lagCompensationDone)
                         {
                             state = FishingState.ReelingStart;
                             ReelDelay = new DispatcherTimer(DispatcherPriority.Send, dis);
