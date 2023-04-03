@@ -1,3 +1,14 @@
+# Version 2.0 In-Progress
+
+## TODOS:
+
+- Removal of Mouse outputs (Use default Hotkey(1) to catch fish and Esc to dismiss Success Dialog)
+- Change UI to remove Reel in button and close button
+- Customize hotkey button
+- Add more sanity checks (Check Minimum Height)
+- Lock setup buttons
+- Send all outputs in the background (PostMessage instead of SendInput)
+
 # ToF Fishing Bot
 
 A FIshing bot for Tower of Fantasy written in C# using OpenCVSharp and SharpDX for fast frame capture and analysis to determine how to move the fishing cursor and also automate the fishing process.
