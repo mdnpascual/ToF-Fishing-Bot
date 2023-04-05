@@ -302,7 +302,6 @@ namespace ToF_Fishing_Bot
                     StartLabel.Text = "Stop\nFishing";
                     if (!fishBotThread.IsAlive)
                     {
-                        fishBot.lastMousePosition = mousePositionWithLeftClick;
                         fishBotThread.Start();
                     }
                 }

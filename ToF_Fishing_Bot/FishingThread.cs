@@ -18,7 +18,6 @@ namespace ToF_Fishing_Bot
         private IAppSettings settings;
         public bool isRunning = false;
         private InputSimulator InputSimulator;
-        public System.Drawing.Point lastMousePosition;
         public int counter = 0;
 
         private System.Windows.Shapes.Rectangle left;
@@ -142,18 +141,14 @@ namespace ToF_Fishing_Bot
                         // HANDLER IS ABOVE
                         break;
                     case FishingState.Reeling:
-                        ClickFishCaptureButton();
-                        ClickFishCaptureButton();
+                        CaptureFish();
                         break;
                     case FishingState.Captured:
-                        ClickTapToCloseButton();
-                        ClickTapToCloseButton();
-                        ClickTapToCloseButton();
+                        CloseFishCaughtDialog();
                         ResetKeys();
                         break;
                     case FishingState.Reset:
-                        ClickFishCaptureButton();
-                        ClickFishCaptureButton();
+                        CaptureFish();
                         break;
                 }
 
@@ -456,18 +451,18 @@ namespace ToF_Fishing_Bot
             return 0;
         }
 
-        public void ClickFishCaptureButton()
+        public void CaptureFish()
         {
-            SetCursorPos(settings.FishCaptureButtonPoint_X, settings.FishCaptureButtonPoint_Y);
-            InputSimulator.Mouse.Sleep(25);
-            InputSimulator.Mouse.LeftButtonClick();
+            InputSimulator.Keyboard.KeyDown(WindowsInput.Native.VirtualKeyCode.VK_1);
+            InputSimulator.Keyboard.Sleep(50);
+            InputSimulator.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.VK_1);
         }
 
-        public void ClickTapToCloseButton()
+        public void CloseFishCaughtDialog()
         {
-            SetCursorPos(settings.TapToClosePoint_X, settings.TapToClosePoint_Y);
-            InputSimulator.Mouse.Sleep(25);
-            InputSimulator.Mouse.LeftButtonClick();
+            InputSimulator.Keyboard.KeyDown(WindowsInput.Native.VirtualKeyCode.ESCAPE);
+            InputSimulator.Keyboard.Sleep(50);
+            InputSimulator.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.ESCAPE);
         }
 
         public void ResetKeys()
