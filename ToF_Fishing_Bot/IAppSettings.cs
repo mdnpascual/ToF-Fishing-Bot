@@ -44,13 +44,5 @@ namespace ToF_Fishing_Bot
         int LowerRightBarPoint_X { get; set; }
         [DefaultValue(0)]
         int LowerRightBarPoint_Y { get; set; }
-        [DefaultValue(0)]
-        int FishCaptureButtonPoint_X { get; set; }
-        [DefaultValue(0)]
-        int FishCaptureButtonPoint_Y { get; set; }
-        [DefaultValue(0)]
-        int TapToClosePoint_X { get; set; }
-        [DefaultValue(0)]
-        int TapToClosePoint_Y { get; set; }
     }
 }

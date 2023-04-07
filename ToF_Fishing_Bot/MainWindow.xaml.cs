@@ -164,22 +164,6 @@ namespace ToF_Fishing_Bot
             }
         }
 
-        private void FishCaptureBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (activeButton == null)
-            {
-                HandleButtonClick(FishCaptureBtn, FishCaptureLabel, "Press Left click\nto specify coords", FishCaptureCoords);
-            }
-        }
-
-        private void TapToCloseBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (activeButton == null)
-            {
-                HandleButtonClick(TapToCloseBtn, TapToCloseLabel, "Press Left click\nto specify coords", TapToCloseCoords);
-            }
-        }
-
         private void HandleButtonClick(
             Button btn,
             TextBlock label,
@@ -241,9 +225,6 @@ namespace ToF_Fishing_Bot
             PlayerStaminaCoords.Text = "X: " + settings.PlayerStaminaPoint_X + "\nY: " + settings.PlayerStaminaPoint_Y;
             UpperLeftCoords.Text = "X: " + settings.UpperLeftBarPoint_X + "\nY: " + settings.UpperLeftBarPoint_Y;
             LowerRightCoords.Text = "X: " + settings.LowerRightBarPoint_X + "\nY: " + settings.LowerRightBarPoint_Y;
-            FishCaptureCoords.Text = "X: " + settings.FishCaptureButtonPoint_X + "\nY: " + settings.FishCaptureButtonPoint_Y;
-            TapToCloseCoords.Text = "X: " + settings.TapToClosePoint_X + "\nY: " + settings.TapToClosePoint_Y;
-
         }
 
         private bool WriteSettings()
@@ -279,14 +260,6 @@ namespace ToF_Fishing_Bot
                 case "LowerRightBtn":
                     settings.LowerRightBarPoint_X = mousePosition.X;
                     settings.LowerRightBarPoint_Y = mousePosition.Y;
-                    break;
-                case "FishCaptureBtn":
-                    settings.FishCaptureButtonPoint_X = mousePosition.X;
-                    settings.FishCaptureButtonPoint_Y = mousePosition.Y;
-                    break;
-                case "TapToCloseBtn":
-                    settings.TapToClosePoint_X = mousePosition.X;
-                    settings.TapToClosePoint_Y = mousePosition.Y;
                     break;
             }
             return true;

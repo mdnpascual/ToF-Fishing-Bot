@@ -4,9 +4,9 @@
 
 - Removal of Mouse outputs (Use default Hotkey(1) to catch fish and Esc to dismiss Success Dialog)
 - Change UI to remove Reel in button and close button
-- Customize hotkey button
+- ~~Customize hotkey button~~ (future 2.X update)
 - Add more sanity checks (Check Minimum Height)
-- Lock setup buttons
+- ~~Lock setup buttons~~ (future 2.X update)
 - Send all outputs in the background (PostMessage instead of SendInput)
 
 # ToF Fishing Bot
