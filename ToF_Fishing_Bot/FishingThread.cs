@@ -125,7 +125,7 @@ namespace ToF_Fishing_Bot
                         0));
                 }));
 
-                Mat frame = ExtractCroppedFrame();
+                Mat frame = ExtractCroppedFrame(bmp);
                 var middleBarPos = GetMiddleBarAveragePos(frame);
                 var fishingCursorPos = GetFishingCursorPos(frame);
                 /*cursorLabel.Dispatcher.Invoke(new Action(() => { cursorLabel.Content = fishingCursorPos.ToString("0.##"); }));
@@ -224,9 +224,9 @@ namespace ToF_Fishing_Bot
             screenStateLogger.Start();
         }
 
-        private Mat ExtractCroppedFrame()
+        private Mat ExtractCroppedFrame(Bitmap image)
         {
-            var cropped = bmp.CropSmall(
+            var cropped = image.CropSmall(
                                 settings.UpperLeftBarPoint_X,
                                 settings.UpperLeftBarPoint_Y,
                                 settings.LowerRightBarPoint_X - settings.UpperLeftBarPoint_X,
