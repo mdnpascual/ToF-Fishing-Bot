@@ -16,6 +16,8 @@ namespace ToF_Fishing_Bot
 {
     public partial class MainWindow : Window
     {
+        private Button defaultButton = new();
+
         private DispatcherTimer timer;
         private System.Drawing.Point previousPosition = new System.Drawing.Point(-1, 1);
         private System.Drawing.Point mousePosition = new System.Drawing.Point(-1, 1);
@@ -23,7 +25,7 @@ namespace ToF_Fishing_Bot
         private bool inCoordSelectMode;
         private bool isDarkMode;
         private System.Windows.Media.Color activeColor;
-        private Button activeButton = new();
+        private Button activeButton;
         private TextBlock activeLabel = new();
         private TextBlock activeCoordsLabel = new();
         private string backupButtonText = String.Empty;
@@ -38,6 +40,7 @@ namespace ToF_Fishing_Bot
         private IKeyboardMouseEvents m_GlobalHook;
         private FishingThread fishBot;
         private Thread fishBotThread;
+        private Lens_Form lens_form;
 
         public MainWindow()
         {
@@ -49,6 +52,8 @@ namespace ToF_Fishing_Bot
             settings = new ConfigurationBuilder<IAppSettings>()
                 .UseJsonFile("settings.json")
                 .Build();
+
+            activeButton = defaultButton;
 
             ReadSettings();
             InitTheme(isDarkMode);
@@ -97,10 +102,11 @@ namespace ToF_Fishing_Bot
                 timer.Stop();
                 inEyeDropMode = false;
                 inCoordSelectMode = false;
-                activeButton = new();
+                activeButton = defaultButton;
                 activeLabel = new();
                 activeCoordsLabel = new();
                 backupButtonText = String.Empty;
+                lens_form.Dispose();
             }
         }
 
@@ -149,7 +155,7 @@ namespace ToF_Fishing_Bot
 
         private void FishStaminaColorBtn_Click(object sender, RoutedEventArgs e)
         {
-            if(activeButton == null)
+            if(activeButton == defaultButton)
             {
                 HandleButtonClick(FishStaminaColorBtn, FishStaminaColorLabel, "Press Left click to select\nColor and bottom most point", FishStaminaCoords);
             }
@@ -157,7 +163,7 @@ namespace ToF_Fishing_Bot
 
         private void MiddleBarColorBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (activeButton == null)
+            if (activeButton == defaultButton)
             {
                 HandleButtonClick(MiddleBarColorBtn, MiddleBarColorLabel, "Press Left click\nto select Color");
             }
@@ -165,7 +171,7 @@ namespace ToF_Fishing_Bot
 
         private void PlayerStaminaColorBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (activeButton == null)
+            if (activeButton == defaultButton)
             {
                 HandleButtonClick(PlayerStaminaColorBtn, PlayerStaminaColorLabel, "Press Left click to select\nColor and bottom most point", PlayerStaminaCoords);
             }
@@ -173,7 +179,7 @@ namespace ToF_Fishing_Bot
 
         private void UpperLeftBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (activeButton == null)
+            if (activeButton == defaultButton)
             {
                 HandleButtonClick(UpperLeftBtn, UpperLeftLabel, "Press Left click\nto specify coords", UpperLeftCoords);
             }
@@ -181,7 +187,7 @@ namespace ToF_Fishing_Bot
 
         private void LowerRightBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (activeButton == null)
+            if (activeButton == defaultButton)
             {
                 HandleButtonClick(LowerRightBtn, LowerRightLabel, "Press Left click\nto specify coords", LowerRightCoords);
             }
@@ -204,6 +210,16 @@ namespace ToF_Fishing_Bot
             activeLabel.Text = labelText;
             timer.Start();
             inEyeDropMode = true;
+
+            lens_form = new Lens_Form()
+            {
+                Size = new System.Drawing.Size(300, 300),
+                AutoClose = true,
+                HideCursor = false,
+                ZoomFactor = 4,
+                NearestNeighborInterpolation = false
+            };
+            lens_form.Show();
         }
 
         private void ReadSettings()
