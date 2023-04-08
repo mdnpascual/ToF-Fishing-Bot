@@ -46,5 +46,31 @@ namespace ToF_Fishing_Bot
         int LowerRightBarPoint_Y { get; set; }
         [DefaultValue(0)]
         int IsDarkMode { get; set; }
+        [DefaultValue(300)]
+        int ZoomSize_X { get; set; }
+        [DefaultValue(300)]
+        int ZoomSize_Y { get; set; }
+        [DefaultValue(4)]
+        int ZoomFactor { get; set; }
+        [DefaultValue("QRSL")]
+        string GameProcessName { get; set; }
+        [DefaultValue(40.0)]
+        double StaminaColorDetectionThreshold { get; set; }
+        [DefaultValue(10.0)]
+        double MiddlebarColorDetectionThreshold { get; set; }
+        [DefaultValue(5000)]
+        int Delay_LagCompensation { get; set; }
+        [DefaultValue(2000)]
+        int Delay_FishCapture { get; set; }
+        [DefaultValue(2000)]
+        int Delay_DismissFishCaptureDialogue { get; set; }
+        [DefaultValue(2000)]
+        int Delay_Restart { get; set; }
+        [DefaultValue(5)]
+        int MinimumMiddleBarHeight { get; set; }
+        [DefaultValue(49)]
+        int KeyCode_FishCapture { get; set; }
+        [DefaultValue(27)]
+        int KeyCode_DismissFishDialogue{ get; set; }
     }
 }

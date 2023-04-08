@@ -18,7 +18,6 @@ namespace ToF_Fishing_Bot
         private IAppSettings settings;
         public bool isRunning = false;
         private InputSimulator InputSimulator;
-        public int counter = 0;
 
         private System.Windows.Shapes.Rectangle left;
         private System.Windows.Shapes.Rectangle right;
@@ -45,8 +44,8 @@ namespace ToF_Fishing_Bot
         private MemoryStream ms1;
         private MemoryStream ms2;
 
-        private double colorThreshold = 40.0;
-        private double middleBarCenterThreshold = 10.0;
+        private double colorThreshold;
+        private double middleBarCenterThreshold;
 
         private ScreenStateLogger screenStateLogger;
 
@@ -93,6 +92,9 @@ namespace ToF_Fishing_Bot
             {
                 GameHandle = _gameHandle.Value;
             }
+
+            colorThreshold = settings.StaminaColorDetectionThreshold;
+            middleBarCenterThreshold = settings.MiddlebarColorDetectionThreshold;
 
             screenStateLogger = new ScreenStateLogger();
         }
@@ -141,7 +143,7 @@ namespace ToF_Fishing_Bot
                         ClickFishCaptureButton();
                         break;
                     case FishingState.Captured:
-                        ClickTapToCloseButton();
+                        CloseFishCaptureDialog();
                         ResetKeys();
                         break;
                     case FishingState.Reset:
@@ -157,7 +159,7 @@ namespace ToF_Fishing_Bot
                             state = FishingState.Fishing;
                             PlayerStamina_lagCompensationDone = false;
                             LagCompensationDelay = new DispatcherTimer(DispatcherPriority.Send, dis);
-                            LagCompensationDelay.Interval = new TimeSpan(0,0,0,5);
+                            LagCompensationDelay.Interval = new TimeSpan(0, 0, 0, 0, settings.Delay_LagCompensation);
                             LagCompensationDelay.Tick += (o, e) =>
                             {
                                 PlayerStamina_lagCompensationDone = true;
@@ -171,7 +173,7 @@ namespace ToF_Fishing_Bot
                         {
                             state = FishingState.ReelingStart;
                             ReelDelay = new DispatcherTimer(DispatcherPriority.Send, dis);
-                            ReelDelay.Interval = new TimeSpan(0,0,0,2);
+                            ReelDelay.Interval = new TimeSpan(0, 0, 0, 0, settings.Delay_FishCapture);
                             ReelDelay.Tick += (o, e) =>
                             {
                                 state = FishingState.Reeling;
@@ -187,7 +189,7 @@ namespace ToF_Fishing_Bot
                     case FishingState.Reeling:
                         state = FishingState.CaptureStart;
                         CaptureDelay = new DispatcherTimer(DispatcherPriority.Send, dis);
-                        CaptureDelay.Interval = new TimeSpan(0, 0, 0, 2);
+                        CaptureDelay.Interval = new TimeSpan(0, 0, 0, 0, settings.Delay_DismissFishCaptureDialogue);
                         CaptureDelay.Tick += (o, e) =>
                         {
                             state = FishingState.Captured;
@@ -201,7 +203,7 @@ namespace ToF_Fishing_Bot
                     case FishingState.Captured:
                         state = FishingState.ResetStart;
                         ResetDelay = new DispatcherTimer(DispatcherPriority.Send, dis);
-                        ResetDelay.Interval = new TimeSpan(0, 0, 0, 2);
+                        ResetDelay.Interval = new TimeSpan(0, 0, 0, 0, settings.Delay_Restart);
                         ResetDelay.Tick += (o, e) =>
                         {
                             state = FishingState.Reset;
@@ -364,7 +366,7 @@ namespace ToF_Fishing_Bot
             Cv2.InRange(frame, lowerBoundsColor, upperBoundsColor, masked);
             /*Cv2.ImShow("masked", masked);*/
 
-            var lineDetect = FastLineDetector.Create(lengthThreshold: 4);
+            var lineDetect = FastLineDetector.Create(lengthThreshold: settings.MinimumMiddleBarHeight - 1);
             try
             {
                 var lines = lineDetect.Detect(masked);
@@ -408,7 +410,7 @@ namespace ToF_Fishing_Bot
             var masked = new Mat();
             Cv2.InRange(frame, lowerBoundsColor, upperBoundsColor, masked);
             /*Cv2.ImShow("masked", masked);*/
-            var lineDetect = FastLineDetector.Create(lengthThreshold: 4);
+            var lineDetect = FastLineDetector.Create(lengthThreshold: settings.MinimumMiddleBarHeight - 1);
 
             try
             {
@@ -452,20 +454,20 @@ namespace ToF_Fishing_Bot
         {
             if (GameHandle != null)
             {
-                InputSimulator.Keyboard.KeyDownBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_1);
+                InputSimulator.Keyboard.KeyDownBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode) settings.KeyCode_FishCapture);
                 InputSimulator.Mouse.Sleep(25);
-                InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_1);
+                InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_FishCapture);
                 InputSimulator.Mouse.Sleep(25);
             }
         }
 
-        public void ClickTapToCloseButton()
+        public void CloseFishCaptureDialog()
         {
             if (GameHandle != null)
             {
-                InputSimulator.Keyboard.KeyDownBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.ESCAPE);
+                InputSimulator.Keyboard.KeyDownBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_DismissFishDialogue);
                 InputSimulator.Mouse.Sleep(25);
-                InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.ESCAPE);
+                InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_DismissFishDialogue);
                 InputSimulator.Mouse.Sleep(25);
             }
         }

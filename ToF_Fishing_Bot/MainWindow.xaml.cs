@@ -213,10 +213,10 @@ namespace ToF_Fishing_Bot
 
             lens_form = new Lens_Form()
             {
-                Size = new System.Drawing.Size(300, 300),
+                Size = new System.Drawing.Size(settings.ZoomSize_X, settings.ZoomSize_Y),
                 AutoClose = true,
                 HideCursor = false,
-                ZoomFactor = 4,
+                ZoomFactor = settings.ZoomFactor,
                 NearestNeighborInterpolation = false
             };
             lens_form.Show();
@@ -350,7 +350,7 @@ namespace ToF_Fishing_Bot
             var message = String.Empty;
             var noErrors = true;
 
-            Process[] processes = Process.GetProcessesByName("QRSL");
+            Process[] processes = Process.GetProcessesByName(settings.GameProcessName);
 
             if (processes.Length == 0)
             {
