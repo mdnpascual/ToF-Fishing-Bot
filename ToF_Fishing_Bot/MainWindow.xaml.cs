@@ -9,6 +9,8 @@ using System.Drawing;
 using Config.Net;
 using System.Threading;
 using System.Windows.Media.Imaging;
+using System.Diagnostics;
+using System.Linq;
 
 namespace ToF_Fishing_Bot
 {
@@ -17,21 +19,20 @@ namespace ToF_Fishing_Bot
         private DispatcherTimer timer;
         private System.Drawing.Point previousPosition = new System.Drawing.Point(-1, 1);
         private System.Drawing.Point mousePosition = new System.Drawing.Point(-1, 1);
-        private System.Drawing.Point mousePositionWithLeftClick = new System.Drawing.Point(-1, 1);
         private bool inEyeDropMode;
         private bool inCoordSelectMode;
         private bool isDarkMode;
         private System.Windows.Media.Color activeColor;
-        private Button activeButton = null;
-        private TextBlock activeLabel = null;
-        private TextBlock activeCoordsLabel = null;
-        private string backupButtonText = "";
+        private Button activeButton = new();
+        private TextBlock activeLabel = new();
+        private TextBlock activeCoordsLabel = new();
+        private string backupButtonText = String.Empty;
 
         private ImageSource dayImage = new BitmapImage(new Uri("pack://application:,,,/img/day.png"));
         private ImageSource nightImage = new BitmapImage(new Uri("pack://application:,,,/img/night.png"));
-        private ResourceDictionary styling = new ResourceDictionary { Source = new Uri("/Tof_Fishing_Bot;component/Resources/StylingDictionary.xaml", UriKind.RelativeOrAbsolute) };
-        private Style darkStyle;
-        private Style lightStyle;
+        private ResourceDictionary styling = new() { Source = new Uri("/Tof_Fishing_Bot;component/Resources/StylingDictionary.xaml", UriKind.RelativeOrAbsolute) };
+        private Style darkStyle = new();
+        private Style lightStyle = new();
 
         private IAppSettings settings;
         private IKeyboardMouseEvents m_GlobalHook;
@@ -51,8 +52,18 @@ namespace ToF_Fishing_Bot
 
             ReadSettings();
             InitTheme(isDarkMode);
-            darkStyle = styling["btnRoundDark"] as Style;
-            lightStyle = styling["btnRoundLight"] as Style;
+
+            if(styling != null)
+            {
+#pragma warning disable CS8601 // Possible null reference assignment.
+                darkStyle = styling["btnRoundDark"] as Style;
+                lightStyle = styling["btnRoundLight"] as Style;
+#pragma warning restore CS8601 // Possible null reference assignment.
+            }
+            else
+            {
+                MessageBox.Show("Styling Not Found. This shouldn't happen", "Internal Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
 
             if (timer == null)
             {
@@ -61,6 +72,7 @@ namespace ToF_Fishing_Bot
                 timer.Tick += new EventHandler(timer_Tick);
             }
             this.Closing += new System.ComponentModel.CancelEventHandler(MainWindow_Closing);
+
             fishBot = new FishingThread(
                 settings, 
                 LeftBox, 
@@ -71,7 +83,8 @@ namespace ToF_Fishing_Bot
                 middleBarImage, 
                 cursorImage, 
                 FishStaminaColorBtn, 
-                PlayerStaminaColorBtn);
+                PlayerStaminaColorBtn,
+                null);
             fishBotThread = new Thread(fishBot.Start);
         }
 
@@ -84,12 +97,11 @@ namespace ToF_Fishing_Bot
                 timer.Stop();
                 inEyeDropMode = false;
                 inCoordSelectMode = false;
-                activeButton = null;
-                activeLabel = null;
-                activeCoordsLabel = null;
-                backupButtonText = null;
+                activeButton = new();
+                activeLabel = new();
+                activeCoordsLabel = new();
+                backupButtonText = String.Empty;
             }
-            mousePositionWithLeftClick = new System.Drawing.Point(e.Location.X, e.Location.Y);
         }
 
         private void GlobalHookMouseMove(object? sender, MouseEventExtArgs e)
@@ -110,9 +122,9 @@ namespace ToF_Fishing_Bot
             fishBot.Stop();
             inEyeDropMode = false;
             inCoordSelectMode = false;
-            activeButton = null;
-            activeLabel = null;
-            activeCoordsLabel = null;
+            activeButton = new();
+            activeLabel = new();
+            activeCoordsLabel = new();
         }
 
 
@@ -179,7 +191,7 @@ namespace ToF_Fishing_Bot
             Button btn,
             TextBlock label,
             string labelText,
-            TextBlock coordLabel = null)
+            TextBlock? coordLabel = null)
         {
             activeButton = btn;
             activeLabel = label;
@@ -285,12 +297,14 @@ namespace ToF_Fishing_Bot
         {
             if(SanityCheck())
             {
+                var gameHandle = GetGameHandle();
                 if (!fishBot.isRunning)
                 {
                     fishBot.isRunning = true;
                     StartLabel.Text = "Stop\nFishing";
                     if (!fishBotThread.IsAlive)
                     {
+                        fishBot.GameHandle = gameHandle;
                         fishBotThread.Start();
                     }
                 }
@@ -308,16 +322,44 @@ namespace ToF_Fishing_Bot
                         middleBarImage,
                         cursorImage,
                         FishStaminaColorBtn,
-                        PlayerStaminaColorBtn);
+                        PlayerStaminaColorBtn,
+                        gameHandle);
                     fishBotThread = new Thread(fishBot.Start);
                 }
             }
         }
 
+        private IntPtr? GetGameHandle()
+        {
+            var message = String.Empty;
+            var noErrors = true;
+
+            Process[] processes = Process.GetProcessesByName("QRSL");
+
+            if (processes.Length == 0)
+            {
+                message = "Failed to find the Game. Either it's not running or the tool is not ran as admin";
+                noErrors = false;
+            }
+            else if (processes.Length > 1)
+            {
+                message = "Found more than one instance of the Game. This is not normal";
+                noErrors = false;
+            }
+
+            if (!noErrors)
+            {
+                MessageBox.Show(message, "Game Not Found. Running Tool as Simulation", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return null;
+            }
+
+            return processes.First().MainWindowHandle;
+        }
+
         private bool SanityCheck()
         {
             var noErrors = true;
-            var message = "";
+            var message = String.Empty;
             if(settings.LowerRightBarPoint_Y < settings.UpperLeftBarPoint_Y)
             {
                 message += "Lower Right Bar Point Y value must be greater than Upper Left Bar Point.\n";

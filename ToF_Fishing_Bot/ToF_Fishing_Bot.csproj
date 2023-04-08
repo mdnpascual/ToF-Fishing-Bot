@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <PackageReference Include="Config.Net" Version="5.1.5" />
-    <PackageReference Include="InputSimulator" Version="1.0.4" />
     <PackageReference Include="OpenCvSharp4" Version="4.6.0.20220608" />
     <PackageReference Include="OpenCvSharp4.Extensions" Version="4.6.0.20220608" />
     <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.6.0.20220608" />
@@ -29,6 +28,10 @@
     <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
     <PackageReference Include="WindowsHook" Version="1.0.1" />
     <PackageReference Include="WpfScreenHelper" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\inputsimulator\WindowsInput\WindowsInput.csproj" />
   </ItemGroup>
 
 </Project>

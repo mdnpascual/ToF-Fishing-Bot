@@ -20,15 +20,16 @@
     </Window.Resources>
     <Grid x:Name="Main_Window">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="149*"/>
-            <ColumnDefinition Width="154*"/>
+            <ColumnDefinition Width="225*"/>
+            <ColumnDefinition Width="73*"/>
+            <ColumnDefinition Width="308*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="StartBtn" HorizontalAlignment="Left" Margin="86,183,0,0" Style="{StaticResource btnRoundDark}" VerticalAlignment="Top" Height="84" Click="StartBtn_Click" Width="172" Grid.Column="1">
+        <Button x:Name="StartBtn" HorizontalAlignment="Left" Margin="86,183,0,0" Style="{StaticResource btnRoundDark}" VerticalAlignment="Top" Height="84" Click="StartBtn_Click" Width="172" Grid.Column="2">
             <TextBlock x:Name="StartLabel" TextWrapping="Wrap" TextAlignment="Center" FontSize="16">Start<LineBreak/>Fishing</TextBlock>
         </Button>
-        <Label x:Name="cursor" Content="Label" HorizontalAlignment="Left" Margin="103,152,0,0" VerticalAlignment="Top" Grid.Column="1"/>
-        <Label x:Name="bar" Content="Label" HorizontalAlignment="Left" Margin="206,152,0,0" VerticalAlignment="Top" Grid.Column="1"/>
-        <Image x:Name="middleBarImage" HorizontalAlignment="Left" Height="20" Margin="10,310,0,0" VerticalAlignment="Top" Width="573" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
+        <Label x:Name="cursor" Content="Label" HorizontalAlignment="Left" Margin="103,152,0,0" VerticalAlignment="Top" Grid.Column="2"/>
+        <Label x:Name="bar" Content="Label" HorizontalAlignment="Left" Margin="206,152,0,0" VerticalAlignment="Top" Grid.Column="2"/>
+        <Image x:Name="middleBarImage" HorizontalAlignment="Left" Height="20" Margin="10,310,0,0" VerticalAlignment="Top" Width="573" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="3">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -38,7 +39,7 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Image x:Name="cursorImage" HorizontalAlignment="Left" Height="20" Margin="10,326,0,0" VerticalAlignment="Top" Width="573" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
+        <Image x:Name="cursorImage" HorizontalAlignment="Left" Height="20" Margin="10,326,0,0" VerticalAlignment="Top" Width="573" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="3">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -48,7 +49,7 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <GroupBox x:Name="OutputGBox" Header="  Output" Margin="7,139,255,46" BorderThickness="4,4,4,4" FontSize="14" Panel.ZIndex="2" Grid.ColumnSpan="2">
+        <GroupBox x:Name="OutputGBox" Header="  Output" Margin="7,139,255,46" BorderThickness="4,4,4,4" FontSize="14" Panel.ZIndex="2" Grid.ColumnSpan="3">
             <StackPanel Height="133">
                 <StackPanel Height="100" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0">
                     <Grid Width="100">
@@ -65,7 +66,7 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox x:Name="MiddleBarGBox" Header="Middle Bar Setup" Margin="10,2,255,208" BorderThickness="4,4,4,4" Panel.ZIndex="1" Grid.ColumnSpan="2">
+        <GroupBox x:Name="MiddleBarGBox" Header="Middle Bar Setup" Margin="10,2,255,208" BorderThickness="4,4,4,4" Panel.ZIndex="1" Grid.ColumnSpan="3">
             <StackPanel>
                 <StackPanel Height="65" Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button x:Name="UpperLeftBtn" Click="UpperLeftBtn_Click" Height="50" Width="85" Style="{StaticResource btnRoundDark}" BorderThickness="2,2,2,2">
@@ -84,7 +85,7 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox x:Name="StaminaGBox" Header="Stamina Setup" Margin="51,2,14,208" BorderThickness="4,4,4,4" Grid.Column="1">
+        <GroupBox x:Name="StaminaGBox" Header="Stamina Setup" Margin="51,2,14,208" BorderThickness="4,4,4,4" Grid.Column="2">
             <StackPanel>
                 <StackPanel Height="65" Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button x:Name="FishStaminaColorBtn" Click="FishStaminaColorBtn_Click" Height="50" Width="85" Style="{StaticResource btnRoundDark}" BorderThickness="2,2,2,2">
@@ -100,7 +101,7 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <Button x:Name="ThemeModeBtn" HorizontalAlignment="Left" Margin="228,275,0,0" VerticalAlignment="Top" Width="30" Height="30" Click="ThemeModeBtn_Click" Grid.Column="1">
+        <Button x:Name="ThemeModeBtn" HorizontalAlignment="Left" Margin="228,275,0,0" VerticalAlignment="Top" Width="30" Height="30" Click="ThemeModeBtn_Click" Grid.Column="2">
             <Image x:Name="ThemeModeImg" Height="25" Width="25" Source="/img/night.png" Stretch="Fill"/>
         </Button>
     </Grid>
