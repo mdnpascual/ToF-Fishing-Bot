@@ -7,21 +7,28 @@
         mc:Ignorable="d"
         Title="TowerOfFantasy Fisherman" Height="383" Width="606">
     <Window.Resources>
-        <Style x:Key="btnRound" TargetType="Button">
-            <Style.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="12"/>
-                </Style>
-            </Style.Resources>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary 
+                  Source="Resources/StylingDictionary.xaml">
+                </ResourceDictionary>
+                <!--<ResourceDictionary 
+                  Source="Resources/OthersStyle.xaml">
+                </ResourceDictionary>-->
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
     <Grid x:Name="Main_Window">
-        <Button x:Name="StartBtn" HorizontalAlignment="Left" Margin="384,188,0,0" VerticalAlignment="Top" Height="84" Click="StartBtn_Click" Width="172">
-            <TextBlock x:Name="StartLabel" TextWrapping="Wrap" TextAlignment="Center">Start<LineBreak/>Fishing</TextBlock>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="149*"/>
+            <ColumnDefinition Width="154*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="StartBtn" HorizontalAlignment="Left" Margin="86,183,0,0" Style="{StaticResource btnRoundDark}" VerticalAlignment="Top" Height="84" Click="StartBtn_Click" Width="172" Grid.Column="1">
+            <TextBlock x:Name="StartLabel" TextWrapping="Wrap" TextAlignment="Center" FontSize="16">Start<LineBreak/>Fishing</TextBlock>
         </Button>
-        <Label x:Name="cursor" Content="Label" HorizontalAlignment="Left" Margin="401,157,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="bar" Content="Label" HorizontalAlignment="Left" Margin="504,157,0,0" VerticalAlignment="Top"/>
-        <Image x:Name="middleBarImage" HorizontalAlignment="Left" Height="20" Margin="10,310,0,0" VerticalAlignment="Top" Width="573" RenderTransformOrigin="0.5,0.5">
+        <Label x:Name="cursor" Content="Label" HorizontalAlignment="Left" Margin="103,152,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="bar" Content="Label" HorizontalAlignment="Left" Margin="206,152,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Image x:Name="middleBarImage" HorizontalAlignment="Left" Height="20" Margin="10,310,0,0" VerticalAlignment="Top" Width="573" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -31,7 +38,7 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Image x:Name="cursorImage" HorizontalAlignment="Left" Height="20" Margin="10,326,0,0" VerticalAlignment="Top" Width="573" RenderTransformOrigin="0.5,0.5">
+        <Image x:Name="cursorImage" HorizontalAlignment="Left" Height="20" Margin="10,326,0,0" VerticalAlignment="Top" Width="573" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -41,15 +48,15 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <GroupBox Header="  Output" Margin="7,139,255,46" BorderThickness="4,4,4,4" FontSize="14" Panel.ZIndex="2">
+        <GroupBox x:Name="OutputGBox" Header="  Output" Margin="7,139,255,46" BorderThickness="4,4,4,4" FontSize="14" Panel.ZIndex="2" Grid.ColumnSpan="2">
             <StackPanel Height="133">
                 <StackPanel Height="100" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0">
                     <Grid Width="100">
-                        <Rectangle x:Name="LeftBox" Stroke="Black" RadiusX="20" RadiusY="20"/>
+                        <Rectangle x:Name="LeftBox" Stroke="Black" RadiusX="20" RadiusY="20" Fill="#00000000"/>
                         <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="A" VerticalAlignment="Center" FontSize="36"/>
                     </Grid>
                     <Grid Width="100" Margin="35,0,0,0">
-                        <Rectangle x:Name="RightBox" Stroke="Black" RadiusX="20" RadiusY="20"/>
+                        <Rectangle x:Name="RightBox" Stroke="Black" RadiusX="20" RadiusY="20" Fill="#00000000"/>
                         <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="D" VerticalAlignment="Center" FontSize="36"/>
                     </Grid>
                 </StackPanel>
@@ -58,16 +65,16 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Middle Bar Setup" Margin="10,2,255,208" BorderThickness="4,4,4,4" Panel.ZIndex="1">
+        <GroupBox x:Name="MiddleBarGBox" Header="Middle Bar Setup" Margin="10,2,255,208" BorderThickness="4,4,4,4" Panel.ZIndex="1" Grid.ColumnSpan="2">
             <StackPanel>
                 <StackPanel Height="65" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button x:Name="UpperLeftBtn" Click="UpperLeftBtn_Click" Height="50" Width="85" Style="{StaticResource btnRound}" BorderThickness="2,2,2,2">
+                    <Button x:Name="UpperLeftBtn" Click="UpperLeftBtn_Click" Height="50" Width="85" Style="{StaticResource btnRoundDark}" BorderThickness="2,2,2,2">
                         <TextBlock x:Name="UpperLeftLabel" TextWrapping="Wrap" TextAlignment="Center" FontSize="16"><Run Text="Upper"/><LineBreak/><Run Text="Left"/></TextBlock>
                     </Button>
-                    <Button x:Name="MiddleBarColorBtn" Click="MiddleBarColorBtn_Click" Height="50" Margin="20,0,20,0" Width="85" Style="{StaticResource btnRound}" BorderThickness="2,2,2,2">
+                    <Button x:Name="MiddleBarColorBtn" Click="MiddleBarColorBtn_Click" Height="50" Margin="20,0,20,0" Width="85" Style="{StaticResource btnRoundDark}" BorderThickness="2,2,2,2">
                         <TextBlock x:Name="MiddleBarColorLabel" TextWrapping="Wrap" TextAlignment="Center" Text="Middle Bar" FontSize="16"/>
                     </Button>
-                    <Button x:Name="LowerRightBtn" Height="50" Click="LowerRightBtn_Click" Width="85" Style="{StaticResource btnRound}" BorderThickness="2,2,2,2">
+                    <Button x:Name="LowerRightBtn" Height="50" Click="LowerRightBtn_Click" Width="85" Style="{StaticResource btnRoundDark}" BorderThickness="2,2,2,2">
                         <TextBlock x:Name="LowerRightLabel" TextWrapping="Wrap" TextAlignment="Center" FontSize="16"><Run Text="Lower"/><LineBreak/><Run Text="Right"/></TextBlock>
                     </Button>
                 </StackPanel>
@@ -77,13 +84,13 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Stamina Setup" Margin="349,2,14,208" BorderThickness="4,4,4,4">
+        <GroupBox x:Name="StaminaGBox" Header="Stamina Setup" Margin="51,2,14,208" BorderThickness="4,4,4,4" Grid.Column="1">
             <StackPanel>
                 <StackPanel Height="65" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button x:Name="FishStaminaColorBtn" Click="FishStaminaColorBtn_Click" Height="50" Width="85" Style="{StaticResource btnRound}" BorderThickness="2,2,2,2">
+                    <Button x:Name="FishStaminaColorBtn" Click="FishStaminaColorBtn_Click" Height="50" Width="85" Style="{StaticResource btnRoundDark}" BorderThickness="2,2,2,2">
                         <TextBlock x:Name="FishStaminaColorLabel" TextWrapping="Wrap" TextAlignment="Center" Text="Fish" FontSize="16"/>
                     </Button>
-                    <Button x:Name="PlayerStaminaColorBtn" Click="PlayerStaminaColorBtn_Click" Height="50" Margin="20,0,0,0" Width="85" Style="{StaticResource btnRound}" BorderThickness="2,2,2,2">
+                    <Button x:Name="PlayerStaminaColorBtn" Click="PlayerStaminaColorBtn_Click" Height="50" Margin="20,0,0,0" Width="85" Style="{StaticResource btnRoundDark}" BorderThickness="2,2,2,2">
                         <TextBlock x:Name="PlayerStaminaColorLabel" TextWrapping="Wrap" TextAlignment="Center" Text="Player" FontSize="16"/>
                     </Button>
                 </StackPanel>
@@ -93,5 +100,8 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
+        <Button x:Name="ThemeModeBtn" HorizontalAlignment="Left" Margin="228,275,0,0" VerticalAlignment="Top" Width="30" Height="30" Click="ThemeModeBtn_Click" Grid.Column="1">
+            <Image x:Name="ThemeModeImg" Height="25" Width="25" Source="/img/night.png" Stretch="Fill"/>
+        </Button>
     </Grid>
 </Window>

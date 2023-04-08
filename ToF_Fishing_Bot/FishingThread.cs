@@ -36,7 +36,8 @@ namespace ToF_Fishing_Bot
         private bool PlayerStamina_lagCompensationDone = false;
         private DispatcherTimer LagCompensationDelay;
 
-        private System.Windows.Media.Color green = System.Windows.Media.Color.FromArgb(255, 0, 255, 0);
+        private readonly SolidColorBrush GreenColor = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 0, 255, 0));
+        private readonly SolidColorBrush ColorAccent2 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 0, 138, 205));
 
         /*private System.Drawing.Point upperLeftSource;
         private System.Drawing.Size blockRegionSize;
@@ -280,7 +281,7 @@ namespace ToF_Fishing_Bot
 
                     right.Dispatcher.Invoke(() =>
                     {
-                        right.Fill = new SolidColorBrush(green);
+                        right.Fill = settings.IsDarkMode > 0 ? ColorAccent2 : GreenColor;
                     });
                     left.Dispatcher.Invoke(() =>
                     {
@@ -299,7 +300,7 @@ namespace ToF_Fishing_Bot
 
                     left.Dispatcher.Invoke(() =>
                     {
-                        left.Fill = new SolidColorBrush(green);
+                        left.Fill = settings.IsDarkMode > 0 ? ColorAccent2 : GreenColor;
                     });
                     right.Dispatcher.Invoke(() =>
                     {

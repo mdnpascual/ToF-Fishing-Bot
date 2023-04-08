@@ -44,5 +44,7 @@ namespace ToF_Fishing_Bot
         int LowerRightBarPoint_X { get; set; }
         [DefaultValue(0)]
         int LowerRightBarPoint_Y { get; set; }
+        [DefaultValue(0)]
+        int IsDarkMode { get; set; }
     }
 }

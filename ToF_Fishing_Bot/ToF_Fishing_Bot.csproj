@@ -10,6 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="img\day.png" />
+    <None Remove="img\night.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="img\day.png" />
+    <Resource Include="img\night.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Config.Net" Version="5.1.5" />
     <PackageReference Include="InputSimulator" Version="1.0.4" />
     <PackageReference Include="OpenCvSharp4" Version="4.6.0.20220608" />
