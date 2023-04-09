@@ -396,6 +396,11 @@ namespace ToF_Fishing_Bot
                 message += "Player Stamina point is not the lowest point\n";
                 noErrors = false;
             }
+            if (settings.LowerRightBarPoint_Y - settings.UpperLeftBarPoint_Y < settings.MinimumMiddleBarHeight)
+            {
+                message += $"The difference between the Upper left point and Lower left point must be greater than or equal to {settings.MinimumMiddleBarHeight} pixels\n";
+                noErrors = false;
+            }
 
             if (!noErrors)
             {
@@ -409,6 +414,7 @@ namespace ToF_Fishing_Bot
             isDarkMode = !isDarkMode;
             activeButton = ThemeModeBtn;
             WriteSettings();
+            activeButton = defaultButton;
             InitTheme(isDarkMode);
         }
 
