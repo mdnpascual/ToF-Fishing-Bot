@@ -18,8 +18,6 @@ namespace ToF_Fishing_Bot
         private IAppSettings settings;
         public bool isRunning = false;
         private InputSimulator InputSimulator;
-        public System.Drawing.Point lastMousePosition;
-        public int counter = 0;
 
         private System.Windows.Shapes.Rectangle left;
         private System.Windows.Shapes.Rectangle right;
@@ -35,29 +33,29 @@ namespace ToF_Fishing_Bot
         private bool DPressed = false;
 
         private bool PlayerStamina_lagCompensationDone = false;
-        private DispatcherTimer LagCompensationDelay;
+        private DispatcherTimer LagCompensationDelay = new();
 
-        private System.Windows.Media.Color green = System.Windows.Media.Color.FromArgb(255, 0, 255, 0);
+        private readonly SolidColorBrush GreenColor = new(System.Windows.Media.Color.FromArgb(255, 0, 255, 0));
+        private readonly SolidColorBrush ColorAccent2 = new(System.Windows.Media.Color.FromArgb(255, 0, 138, 205));
 
-        /*private System.Drawing.Point upperLeftSource;
-        private System.Drawing.Size blockRegionSize;
-        private System.Drawing.Point upperLeftDestination;*/
-        private Bitmap bmp;
+        private Bitmap bmp = new(1, 1);
         private BitmapImage bi1;
         private BitmapImage bi2;
         private MemoryStream ms1;
         private MemoryStream ms2;
 
-        private double colorThreshold = 40.0;
-        private double middleBarCenterThreshold = 10.0;
+        private double colorThreshold;
+        private double middleBarCenterThreshold;
 
         private ScreenStateLogger screenStateLogger;
 
-        private Dispatcher dis;
-        private DispatcherTimer ReelDelay;
-        private DispatcherTimer CaptureDelay;
-        private DispatcherTimer ResetDelay;
+        private Dispatcher dis = Dispatcher.CurrentDispatcher;
+        private DispatcherTimer ReelDelay = new DispatcherTimer();
+        private DispatcherTimer CaptureDelay = new DispatcherTimer();
+        private DispatcherTimer ResetDelay = new DispatcherTimer();
         private FishingState state;
+
+        public IntPtr? GameHandle = null;
 
         public FishingThread(
             IAppSettings _settings, 
@@ -69,7 +67,8 @@ namespace ToF_Fishing_Bot
             System.Windows.Controls.Image _middleBarImage,
             System.Windows.Controls.Image _cursorImage,
             System.Windows.Controls.Button _fishStaminaButton,
-            System.Windows.Controls.Button _playerStaminaButton)
+            System.Windows.Controls.Button _playerStaminaButton,
+            IntPtr? _gameHandle)
         {
             settings = _settings;
             left = _left;
@@ -89,15 +88,14 @@ namespace ToF_Fishing_Bot
             dis = Dispatcher.CurrentDispatcher;
             state = FishingState.NotFishing;
 
-            /*upperLeftSource = new System.Drawing.Point(
-                settings.UpperLeftBarPoint_X,
-                settings.UpperLeftBarPoint_Y);
-            blockRegionSize = new System.Drawing.Size(
-                                    settings.LowerRightBarPoint_X - settings.UpperLeftBarPoint_X,
-                                    settings.LowerRightBarPoint_Y - settings.UpperLeftBarPoint_Y);
-            upperLeftDestination = new System.Drawing.Point(0, 0);*/
+            if (_gameHandle.HasValue)
+            {
+                GameHandle = _gameHandle.Value;
+            }
 
-            /*bmp = new Bitmap(settings.LowerRightBarPoint_X - settings.UpperLeftBarPoint_X + 20, settings.LowerRightBarPoint_Y - settings.UpperLeftBarPoint_Y);*/
+            colorThreshold = settings.StaminaColorDetectionThreshold;
+            middleBarCenterThreshold = settings.MiddlebarColorDetectionThreshold;
+
             screenStateLogger = new ScreenStateLogger();
         }
 
@@ -105,7 +103,7 @@ namespace ToF_Fishing_Bot
         {
             screenStateLogger.ScreenRefreshed += (sender, data) =>
             {
-                statusLabel.Dispatcher.Invoke(new Action(() => { statusLabel.Content = "Status: " + state.ToString(); }));
+                statusLabel.Dispatcher.Invoke(new Action(() => { statusLabel.Content = "Status: " + state.ToString() + (GameHandle == null ? " (Game not running)" : String.Empty); }));
                 bmp = new Bitmap(new MemoryStream(data));
                 bool fishStaminaDetected = FishStaminaDetector(bmp);
                 bool playerStaminaDetected = PlayerStaminaDetector(bmp);
@@ -143,16 +141,12 @@ namespace ToF_Fishing_Bot
                         break;
                     case FishingState.Reeling:
                         ClickFishCaptureButton();
-                        ClickFishCaptureButton();
                         break;
                     case FishingState.Captured:
-                        ClickTapToCloseButton();
-                        ClickTapToCloseButton();
-                        ClickTapToCloseButton();
+                        CloseFishCaptureDialog();
                         ResetKeys();
                         break;
                     case FishingState.Reset:
-                        ClickFishCaptureButton();
                         ClickFishCaptureButton();
                         break;
                 }
@@ -165,7 +159,7 @@ namespace ToF_Fishing_Bot
                             state = FishingState.Fishing;
                             PlayerStamina_lagCompensationDone = false;
                             LagCompensationDelay = new DispatcherTimer(DispatcherPriority.Send, dis);
-                            LagCompensationDelay.Interval = new TimeSpan(0,0,0,5);
+                            LagCompensationDelay.Interval = new TimeSpan(0, 0, 0, 0, settings.Delay_LagCompensation);
                             LagCompensationDelay.Tick += (o, e) =>
                             {
                                 PlayerStamina_lagCompensationDone = true;
@@ -179,7 +173,7 @@ namespace ToF_Fishing_Bot
                         {
                             state = FishingState.ReelingStart;
                             ReelDelay = new DispatcherTimer(DispatcherPriority.Send, dis);
-                            ReelDelay.Interval = new TimeSpan(0,0,0,2);
+                            ReelDelay.Interval = new TimeSpan(0, 0, 0, 0, settings.Delay_FishCapture);
                             ReelDelay.Tick += (o, e) =>
                             {
                                 state = FishingState.Reeling;
@@ -195,7 +189,7 @@ namespace ToF_Fishing_Bot
                     case FishingState.Reeling:
                         state = FishingState.CaptureStart;
                         CaptureDelay = new DispatcherTimer(DispatcherPriority.Send, dis);
-                        CaptureDelay.Interval = new TimeSpan(0, 0, 0, 2);
+                        CaptureDelay.Interval = new TimeSpan(0, 0, 0, 0, settings.Delay_DismissFishCaptureDialogue);
                         CaptureDelay.Tick += (o, e) =>
                         {
                             state = FishingState.Captured;
@@ -209,7 +203,7 @@ namespace ToF_Fishing_Bot
                     case FishingState.Captured:
                         state = FishingState.ResetStart;
                         ResetDelay = new DispatcherTimer(DispatcherPriority.Send, dis);
-                        ResetDelay.Interval = new TimeSpan(0, 0, 0, 2);
+                        ResetDelay.Interval = new TimeSpan(0, 0, 0, 0, settings.Delay_Restart);
                         ResetDelay.Tick += (o, e) =>
                         {
                             state = FishingState.Reset;
@@ -278,14 +272,17 @@ namespace ToF_Fishing_Bot
             {
                 if (!DPressed)
                 {
-                    InputSimulator.Keyboard.KeyDown(WindowsInput.Native.VirtualKeyCode.VK_D);
-                    InputSimulator.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.VK_A);
+                    if(GameHandle != null)
+                    {
+                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_A);
+                        InputSimulator.Keyboard.KeyDownBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_D);
+                    }
                     DPressed = true;
                     APressed = false;
 
                     right.Dispatcher.Invoke(() =>
                     {
-                        right.Fill = new SolidColorBrush(green);
+                        right.Fill = settings.IsDarkMode > 0 ? ColorAccent2 : GreenColor;
                     });
                     left.Dispatcher.Invoke(() =>
                     {
@@ -297,14 +294,17 @@ namespace ToF_Fishing_Bot
             {
                 if (!APressed)
                 {
-                    InputSimulator.Keyboard.KeyDown(WindowsInput.Native.VirtualKeyCode.VK_A);
-                    InputSimulator.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.VK_D);
+                    if (GameHandle != null)
+                    {
+                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_D);
+                        InputSimulator.Keyboard.KeyDownBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_A);
+                    }
                     DPressed = false;
                     APressed = true;
 
                     left.Dispatcher.Invoke(() =>
                     {
-                        left.Fill = new SolidColorBrush(green);
+                        left.Fill = settings.IsDarkMode > 0 ? ColorAccent2 : GreenColor;
                     });
                     right.Dispatcher.Invoke(() =>
                     {
@@ -316,7 +316,10 @@ namespace ToF_Fishing_Bot
             {
                 if (APressed)
                 {
-                    InputSimulator.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.VK_A);
+                    if (GameHandle != null)
+                    {
+                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_A);
+                    }
                     APressed = false;
                     left.Dispatcher.Invoke(() =>
                     {
@@ -325,7 +328,10 @@ namespace ToF_Fishing_Bot
                 }
                 if (DPressed)
                 {
-                    InputSimulator.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.VK_D);
+                    if (GameHandle != null)
+                    {
+                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_D);
+                    }
                     DPressed = false;
                     right.Dispatcher.Invoke(() =>
                     {
@@ -340,18 +346,6 @@ namespace ToF_Fishing_Bot
             screenStateLogger.Stop();
             screenStateLogger = new ScreenStateLogger();
         }
-
-        /*public Bitmap OldCapture()
-        {
-            using (Graphics g = Graphics.FromImage(bmp))
-            {
-                g.CopyFromScreen(
-                    upperLeftSource,
-                    upperLeftDestination,
-                    blockRegionSize);
-            }
-            return bmp;
-        }*/
 
         public double GetMiddleBarAveragePos(Mat frame)
         {
@@ -372,7 +366,7 @@ namespace ToF_Fishing_Bot
             Cv2.InRange(frame, lowerBoundsColor, upperBoundsColor, masked);
             /*Cv2.ImShow("masked", masked);*/
 
-            var lineDetect = FastLineDetector.Create(lengthThreshold: 4);
+            var lineDetect = FastLineDetector.Create(lengthThreshold: settings.MinimumMiddleBarHeight - 1);
             try
             {
                 var lines = lineDetect.Detect(masked);
@@ -416,7 +410,7 @@ namespace ToF_Fishing_Bot
             var masked = new Mat();
             Cv2.InRange(frame, lowerBoundsColor, upperBoundsColor, masked);
             /*Cv2.ImShow("masked", masked);*/
-            var lineDetect = FastLineDetector.Create(lengthThreshold: 4);
+            var lineDetect = FastLineDetector.Create(lengthThreshold: settings.MinimumMiddleBarHeight - 1);
 
             try
             {
@@ -458,28 +452,42 @@ namespace ToF_Fishing_Bot
 
         public void ClickFishCaptureButton()
         {
-            SetCursorPos(settings.FishCaptureButtonPoint_X, settings.FishCaptureButtonPoint_Y);
-            InputSimulator.Mouse.Sleep(25);
-            InputSimulator.Mouse.LeftButtonClick();
+            if (GameHandle != null)
+            {
+                InputSimulator.Keyboard.KeyDownBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode) settings.KeyCode_FishCapture);
+                InputSimulator.Mouse.Sleep(25);
+                InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_FishCapture);
+                InputSimulator.Mouse.Sleep(25);
+            }
         }
 
-        public void ClickTapToCloseButton()
+        public void CloseFishCaptureDialog()
         {
-            SetCursorPos(settings.TapToClosePoint_X, settings.TapToClosePoint_Y);
-            InputSimulator.Mouse.Sleep(25);
-            InputSimulator.Mouse.LeftButtonClick();
+            if (GameHandle != null)
+            {
+                InputSimulator.Keyboard.KeyDownBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_DismissFishDialogue);
+                InputSimulator.Mouse.Sleep(25);
+                InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_DismissFishDialogue);
+                InputSimulator.Mouse.Sleep(25);
+            }
         }
 
         public void ResetKeys()
         {
-            InputSimulator.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.VK_A);
+            if (GameHandle != null)
+            {
+                InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_A);
+            }
             APressed = false;
             left.Dispatcher.Invoke(() =>
             {
                 left.Fill = System.Windows.Media.Brushes.Transparent;
             });
 
-            InputSimulator.Keyboard.KeyUp(WindowsInput.Native.VirtualKeyCode.VK_D);
+            if (GameHandle != null)
+            {
+                InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_D);
+            }
             DPressed = false;
             right.Dispatcher.Invoke(() =>
             {
