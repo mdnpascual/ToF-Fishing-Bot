@@ -7,11 +7,17 @@
 	<UseWPF>true</UseWPF>
 	<UseWindowsForms>true</UseWindowsForms>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	<PackageIcon>icon_resized.png</PackageIcon>
+	<ApplicationIcon>img\icon_resized.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="img\day.png" />
     <None Remove="img\night.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="img\icon_resized.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +38,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\inputsimulator\WindowsInput\WindowsInput.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="img\icon_resized.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
