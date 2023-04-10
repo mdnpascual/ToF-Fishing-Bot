@@ -6,11 +6,11 @@
 
 A FIshing bot for Tower of Fantasy written in C# using OpenCVSharp and SharpDX for fast frame capture and analysis to determine how to move the fishing cursor and also automate the fishing process.
 
-Fishing bot in action in youtube: https://youtu.be/BEgO2LTxKZE
-[![Fishing bot in action](https://i.ytimg.com/vi/BEgO2LTxKZE/hqdefault.jpg)](http://www.youtube.com/watch?v=BEgO2LTxKZE "Fishing bot in action in youtube")
+Fishing bot in action in youtube: https://youtu.be/MiCFCidkEVg
+[![Fishing bot in action](https://i.ytimg.com/vi/MiCFCidkEVg/maxresdefault.jpg)](http://www.youtube.com/watch?v=MiCFCidkEVg "Fishing bot in action in youtube")
 
 Quick image tutorial:
-[![Settings up the Fishing bot](https://raw.githubusercontent.com/mdnpascual/ToF-Fishing-Bot/version-2.0/ToF_Fishing_Bot/img/tut.jpg)](https://raw.githubusercontent.com/mdnpascual/ToF-Fishing-Bot/version-2.0/ToF_Fishing_Bot/img/tut.jpg "Settings up the Fishing bot (TODO: CHANGE ME)")
+[![Settings up the Fishing bot](https://raw.githubusercontent.com/mdnpascual/ToF-Fishing-Bot/master/ToF_Fishing_Bot/img/tut.jpg)](https://raw.githubusercontent.com/mdnpascual/ToF-Fishing-Bot/master/ToF_Fishing_Bot/img/tut.jpg "Settings up the Fishing bot (TODO: CHANGE ME)")
 
 # New Features in 2.0
 
