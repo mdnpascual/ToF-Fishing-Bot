@@ -91,9 +91,11 @@ If you notice that the tool sometimes pre-emptively catches a fish on higher sta
 
 ## Delay before dismissing the Fish Capture screen
 #### `"Delay_DismissFishCaptureDialogue": <delay_in_ms>`
-Example: ```  "Delay_DismissFishCaptureDialogue": "2000"``` (default)
+Example: ```  "Delay_DismissFishCaptureDialogue": "4000"``` (default)
 
 Where `delay_in_ms` is the delay in millisecond before the tool presses the ESC Key after capturing the fish.
+This is needed when you don't have all the alphas caught.
+If you have all the alphas caught and want to speed up the fishing loop a bit, you can change this down to 2000
 
 ## Delay before restarting the process again
 #### `"Delay_Restart": <delay_in_ms>`

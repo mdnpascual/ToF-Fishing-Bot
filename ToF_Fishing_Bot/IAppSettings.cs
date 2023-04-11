@@ -62,7 +62,7 @@ namespace ToF_Fishing_Bot
         int Delay_LagCompensation { get; set; }
         [DefaultValue(2000)]
         int Delay_FishCapture { get; set; }
-        [DefaultValue(2000)]
+        [DefaultValue(4000)]
         int Delay_DismissFishCaptureDialogue { get; set; }
         [DefaultValue(2000)]
         int Delay_Restart { get; set; }

@@ -231,17 +231,34 @@ namespace ToF_Fishing_Bot
                                 settings.LowerRightBarPoint_X - settings.UpperLeftBarPoint_X,
                                 settings.LowerRightBarPoint_Y - settings.UpperLeftBarPoint_Y);
 
-            var bordered = new Bitmap(cropped.Width + 20, cropped.Height);
-            using (Graphics g = Graphics.FromImage(bordered))
+            if (cropped.Height > 5)
             {
-                g.DrawImage(cropped, new System.Drawing.Point(9, 0));
-            }
+                var bordered = new Bitmap(cropped.Width + 20, cropped.Height);
+                using (Graphics g = Graphics.FromImage(bordered))
+                {
+                    g.DrawImage(cropped, new System.Drawing.Point(9, 0));
+                }
 
-            var frame = BitmapConverter.ToMat(bordered);
-            /*Cv2.ImShow("test", frame);
-              Cv2.WaitKey();*/
-            /*var frame = BitmapConverter.ToMat(OldCapture());*/
-            return frame;
+                var frame = BitmapConverter.ToMat(bordered);
+                /*Cv2.ImShow("test", frame);
+                  Cv2.WaitKey();*/
+                /*var frame = BitmapConverter.ToMat(OldCapture());*/
+                return frame;
+            } else
+            {
+                var bordered = new Bitmap(cropped.Width * 4 + 20, cropped.Height * 4);
+                using (Graphics g = Graphics.FromImage(bordered))
+                {
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.DrawImage(cropped, 9, 0, cropped.Width * 4 + 20, cropped.Height * 4);
+                }
+
+                var frame = BitmapConverter.ToMat(bordered);
+                /*Cv2.ImShow("test", frame);
+                  Cv2.WaitKey();*/
+                /*var frame = BitmapConverter.ToMat(OldCapture());*/
+                return frame;
+            }
         }
 
         private bool FishStaminaDetector(Bitmap image)
