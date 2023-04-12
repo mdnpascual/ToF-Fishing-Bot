@@ -140,11 +140,11 @@ Example: ```  "StaminaColorDetectionThreshold": "40.0"``` (default)
 
 Where `double_val` is a the amount of variance that the game will accept as the correct color for the fish or player stamina.
 This value are the 2 changing values at the top of the "Start/Stop Fishing" Button.
-Lower values means a stricter check but more false negatives. Higher values means less strict but more false positive.
+Lower values means a stricter check but more false positives. Higher values means less strict but more false negatives.
 
 ## Middle Bar Color Threshold
 #### `"MiddlebarColorDetectionThreshold": <double_val>`
 Example: ```  "MiddlebarColorDetectionThreshold": "10.0"``` (default)
 
 Where `double_val` is a the amount of variance that the game will accept as the correct color for the middle bar.
-Lower values means a stricter check but more false negatives. Higher values means less strict but more false positive.
+Lower values means a stricter check but more false positives. Higher values means less strict but more false negatives.
