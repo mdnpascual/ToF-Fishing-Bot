@@ -72,5 +72,9 @@ namespace ToF_Fishing_Bot
         int KeyCode_FishCapture { get; set; }
         [DefaultValue(27)]
         int KeyCode_DismissFishDialogue{ get; set; }
+        [DefaultValue(65)]
+        int KeyCode_MoveLeft { get; set; }
+        [DefaultValue(68)]
+        int KeyCode_MoveRight { get; set; }
     }
 }

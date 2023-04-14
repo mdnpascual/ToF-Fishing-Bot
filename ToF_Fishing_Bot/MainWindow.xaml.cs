@@ -266,6 +266,9 @@ namespace ToF_Fishing_Bot
             LowerRightCoords.Text = "X: " + settings.LowerRightBarPoint_X + "\nY: " + settings.LowerRightBarPoint_Y;
 
             isDarkMode = settings.IsDarkMode > 0;
+
+            MoveLeftLabel.Text = KeycodeHelper.KeycodeToString(settings.KeyCode_MoveLeft);
+            MoveRightLabel.Text = KeycodeHelper.KeycodeToString(settings.KeyCode_MoveRight);
         }
 
         private bool WriteSettings()

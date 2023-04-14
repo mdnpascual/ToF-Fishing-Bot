@@ -37,6 +37,10 @@ Download and Install: https://dotnet.microsoft.com/en-us/download/dotnet/6.0 (.N
 
 - Run the game first OR again, run the tool as Administrator
 
+### When setting up the points, the zoom in the circle only shows white pixels.
+
+- The game needs to be run on the main monitor.
+
 ### Status stuck at NotFishing after setup and clicking Start Fishing. I can see it moving the cursor but doesn't catch the fish
 
 - Make sure the lowest point of the Fish and Player stamina are properly selected (See tutorial).

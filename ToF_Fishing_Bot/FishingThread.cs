@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -289,10 +288,10 @@ namespace ToF_Fishing_Bot
             {
                 if (!DPressed)
                 {
-                    if(GameHandle != null)
+                    if (GameHandle != null)
                     {
-                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_A);
-                        InputSimulator.Keyboard.KeyDownBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_D);
+                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_MoveLeft);
+                        InputSimulator.Keyboard.KeyDownBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_MoveRight);
                     }
                     DPressed = true;
                     APressed = false;
@@ -313,8 +312,8 @@ namespace ToF_Fishing_Bot
                 {
                     if (GameHandle != null)
                     {
-                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_D);
-                        InputSimulator.Keyboard.KeyDownBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_A);
+                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_MoveRight);
+                        InputSimulator.Keyboard.KeyDownBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_MoveLeft);
                     }
                     DPressed = false;
                     APressed = true;
@@ -335,7 +334,7 @@ namespace ToF_Fishing_Bot
                 {
                     if (GameHandle != null)
                     {
-                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_A);
+                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_MoveLeft);
                     }
                     APressed = false;
                     left.Dispatcher.Invoke(() =>
@@ -347,7 +346,7 @@ namespace ToF_Fishing_Bot
                 {
                     if (GameHandle != null)
                     {
-                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_D);
+                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_MoveRight);
                     }
                     DPressed = false;
                     right.Dispatcher.Invoke(() =>
@@ -493,7 +492,7 @@ namespace ToF_Fishing_Bot
         {
             if (GameHandle != null)
             {
-                InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_A);
+                InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_MoveLeft);
             }
             APressed = false;
             left.Dispatcher.Invoke(() =>
@@ -503,7 +502,7 @@ namespace ToF_Fishing_Bot
 
             if (GameHandle != null)
             {
-                InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_D);
+                InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_MoveRight);
             }
             DPressed = false;
             right.Dispatcher.Invoke(() =>
@@ -511,9 +510,6 @@ namespace ToF_Fishing_Bot
                 right.Fill = System.Windows.Media.Brushes.Transparent;
             });
         }
-
-        [DllImport("user32.dll", EntryPoint = "SetCursorPos")]
-        private static extern int SetCursorPos(int x, int y);
 
         enum FishingState
         {
