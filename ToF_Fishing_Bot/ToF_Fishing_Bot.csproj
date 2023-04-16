@@ -14,6 +14,8 @@
   <ItemGroup>
     <None Remove="img\day.png" />
     <None Remove="img\night.png" />
+    <None Remove="img\setting_day.png" />
+    <None Remove="img\setting_night.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +25,8 @@
   <ItemGroup>
     <Resource Include="img\day.png" />
     <Resource Include="img\night.png" />
+    <Resource Include="img\setting_day.png" />
+    <Resource Include="img\setting_night.png" />
   </ItemGroup>
 
   <ItemGroup>

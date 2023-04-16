@@ -1,32 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows.Forms;
 
 namespace ToF_Fishing_Bot
 {
     public class KeycodeHelper
     {
+        private static readonly KeysConverter kc = new();
+
         public static string KeycodeToString(int keyCode)
         {
-            StringBuilder charPressed = new(256);
-            ToUnicode((uint)keyCode, 0, new byte[256], charPressed, charPressed.Capacity, 0);
-
-            return charPressed.ToString().ToUpper();
+            var buttonName = kc.ConvertToString(keyCode) ?? "UNKNOWN";
+            return buttonName.ToUpper();
         }
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        public static extern int ToUnicode(
-        uint virtualKeyCode,
-        uint scanCode,
-        byte[] keyboardState,
-        StringBuilder receivingBuffer,
-        int bufferSize,
-        uint flags
-    );
     }
-
-    
 }

@@ -104,5 +104,8 @@
         <Button x:Name="ThemeModeBtn" HorizontalAlignment="Left" Margin="228,275,0,0" VerticalAlignment="Top" Width="30" Height="30" Click="ThemeModeBtn_Click" Grid.Column="2">
             <Image x:Name="ThemeModeImg" Height="25" Width="25" Source="/img/night.png" Stretch="Fill"/>
         </Button>
+        <Button x:Name="SettingBtn" HorizontalAlignment="Left" Margin="86,275,0,0" VerticalAlignment="Top" Width="30" Height="30" Click="SettingBtn_Click" Grid.Column="2">
+            <Image x:Name="SettingImg" Height="25" Width="25" Source="/img/setting_day.png" Stretch="Fill"/>
+        </Button>
     </Grid>
 </Window>
