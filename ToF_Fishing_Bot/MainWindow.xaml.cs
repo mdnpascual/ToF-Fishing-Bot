@@ -11,6 +11,7 @@ using System.Threading;
 using System.Windows.Media.Imaging;
 using System.Diagnostics;
 using System.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ToF_Fishing_Bot
 {

@@ -116,6 +116,23 @@ namespace ToF_Fishing_Bot
                 DismissBtn.Foreground = darkModeTheme ? Theme.ColorAccent5 : Theme.BlackColor;
                 DismissDescription.Foreground = darkModeTheme ? Theme.ColorAccent5 : Theme.BlackColor;
             }
+
+            // Row 1
+            LabelRow1.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            // Row 2
+            ArrowRow2.Source = RotateImage(darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage, 90);
+            // Row 3
+            DelayRestartLabel.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            RestartDelayTextBox.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.WhiteColor;
+            RestartDelayTextBox.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            ArrowRow3Column1.Source = darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage;
+            ArrowRow3Column2.Source = darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage;
+            DelayLagCompensationLabel.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            LagCompensationDelayTextBox.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.WhiteColor;
+            LagCompensationDelayTextBox.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            // Row 4
+            ArrowRow4Column1.Source = RotateImage(darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage, 270);
+            ArrowRow4Column2.Source = RotateImage(darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage, 90);
         }
         private void HandleHotkeyButtonClick(
             Button btn,
@@ -214,6 +231,17 @@ namespace ToF_Fishing_Bot
         private void SettingsWindow1_Closed(object sender, EventArgs e)
         {
             m_GlobalHook.KeyUp -= GlobalHookKeyUp;
+        }
+
+        private TransformedBitmap RotateImage(ImageSource imageSource, int rotation)
+        {
+            TransformedBitmap rotatedBitmap = new TransformedBitmap();
+            rotatedBitmap.BeginInit();
+            rotatedBitmap.Source = (BitmapImage)imageSource;
+            rotatedBitmap.Transform = new RotateTransform(rotation);
+            rotatedBitmap.EndInit();
+
+            return rotatedBitmap;
         }
     }
 }

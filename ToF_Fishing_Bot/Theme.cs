@@ -26,6 +26,8 @@ namespace ToF_Fishing_Bot
         public static ImageSource NightImage = new BitmapImage(new Uri("pack://application:,,,/img/night.png"));
         public static ImageSource DaySettingImage = new BitmapImage(new Uri("pack://application:,,,/img/setting_day.png"));
         public static ImageSource NightSettingImage = new BitmapImage(new Uri("pack://application:,,,/img/setting_night.png"));
+        public static ImageSource DayArrowImage = new BitmapImage(new Uri("pack://application:,,,/img/arrow_day.png"));
+        public static ImageSource NightArrowImage = new BitmapImage(new Uri("pack://application:,,,/img/arrow_night.png"));
         public static ResourceDictionary Styling = new() { Source = new Uri("/Tof_Fishing_Bot;component/Resources/StylingDictionary.xaml", UriKind.RelativeOrAbsolute) };
         public static Style DarkStyle = Styling["btnRoundDark"] as Style;
         public static Style LightStyle = Styling["btnRoundLight"] as Style;

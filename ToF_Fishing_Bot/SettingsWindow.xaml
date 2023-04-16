@@ -47,7 +47,42 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox x:Name="DelayGBox" Header="Delay Customization" Margin="268,8,167,101"/>
+        <GroupBox x:Name="DelayGBox" Header="Delay Customization" Margin="268,8,8,101">
+            <StackPanel>
+                <StackPanel x:Name="DelayRow1" Height="30" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <Label x:Name="LabelRow1" Content="Start" FontSize="16" Margin="1,0,10,0"/>
+                </StackPanel>
+                <StackPanel x:Name="DelayRow2" Height="40" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <Image x:Name="ArrowRow2" Source="/img/arrow_night.png" Margin="1,0,10,0"/>
+                </StackPanel>
+                <StackPanel x:Name="DelayRow3" Height="60" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <StackPanel x:Name="DelayRestartGBox" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="1,0,25,0" >
+                        <Label x:Name="DelayRestartLabel" Content="Restart Delay" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12"/>
+                        <TextBox x:Name="RestartDelayTextBox" Width="90" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" TextAlignment="Center" />
+                    </StackPanel>
+                    <Image x:Name="ArrowRow3Column1" Source="/img/arrow_night.png" Height="30" Margin="1,0,25,0" />
+                    <TextBlock x:Name="StaminaBarAppearsLabel" TextWrapping="Wrap" TextAlignment="Center" FontSize="14" Margin="1,0,1,0">Stamina<LineBreak/>Bar<LineBreak/>Appears</TextBlock>
+                    <Image x:Name="ArrowRow3Column2" Source="/img/arrow_night.png" Height="30" Margin="25,0,25,0" />
+                    <StackPanel x:Name="DelayLagCompensationGBox" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="1,0,1,0" >
+                        <Label x:Name="DelayLagCompensationLabel" Content="Lag Comp Delay" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12"/>
+                        <TextBox x:Name="LagCompensationDelayTextBox" Width="90" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" TextAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel x:Name="DelayRow4" Height="40" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <Image x:Name="ArrowRow4Column1" Source="/img/arrow_night.png" Margin="10,0,320,0"/>
+                    <Image x:Name="ArrowRow4Column2" Source="/img/arrow_night.png" Margin="20,0,10,0"/>
+                </StackPanel>
+                <StackPanel x:Name="DelayRow5" Height="40" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <Label Content="Start"/>
+                </StackPanel>
+                <StackPanel x:Name="DelayRow6" Height="40" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <Label Content="Start"/>
+                </StackPanel>
+                <StackPanel x:Name="DelayRow7" Height="40" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <Label Content="Start"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
 
     </Grid>
 </Window>
