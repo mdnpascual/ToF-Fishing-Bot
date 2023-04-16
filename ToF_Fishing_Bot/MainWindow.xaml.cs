@@ -80,16 +80,21 @@ namespace ToF_Fishing_Bot
             if (inEyeDropMode || inCoordSelectMode)
             {
                 WriteSettings();
-                activeLabel.Text = backupButtonText;
                 timer.Stop();
-                inEyeDropMode = false;
-                inCoordSelectMode = false;
-                activeButton = defaultButton;
-                activeLabel = new();
-                activeCoordsLabel = new();
-                backupButtonText = String.Empty;
+                ResetTempVars();
                 lens_form.Dispose();
             }
+        }
+
+        private void ResetTempVars()
+        {
+            activeLabel.Text = backupButtonText;
+            inEyeDropMode = false;
+            inCoordSelectMode = false;
+            activeButton = defaultButton;
+            activeLabel = new();
+            activeCoordsLabel = new();
+            backupButtonText = String.Empty;
         }
 
         private void GlobalHookMouseMove(object? sender, MouseEventExtArgs e)
@@ -114,7 +119,6 @@ namespace ToF_Fishing_Bot
             activeLabel = new();
             activeCoordsLabel = new();
         }
-
 
         void timer_Tick(object sender, EventArgs e)
         {
@@ -482,6 +486,7 @@ namespace ToF_Fishing_Bot
             {
                 SettingsWindow settingWindow = new(settings, m_GlobalHook);
                 settingWindow.ShowDialog();
+                ReadSettings();
             }
         }
     }

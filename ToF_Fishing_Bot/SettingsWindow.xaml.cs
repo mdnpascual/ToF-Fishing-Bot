@@ -50,10 +50,31 @@ namespace ToF_Fishing_Bot
             if (activeButton != defaultButton)
             {
                 activeLabel.Text = KeycodeHelper.KeycodeToString(e.KeyValue);
+                WriteSettings(e.KeyValue);
 
                 ResetHotkeyButtons();
                 ResetHotkeyLabels(activeLabel, false);
             }
+        }
+
+        private bool WriteSettings(int keyCode)
+        {
+            switch (activeButton.Name)
+            {
+                case "MoveLeftBtn":
+                    settings.KeyCode_MoveLeft = keyCode;
+                    break;
+                case "MoveRightBtn":
+                    settings.KeyCode_MoveRight = keyCode;
+                    break;
+                case "ReelInBtn":
+                    settings.KeyCode_FishCapture = keyCode;
+                    break;
+                case "DismissBtn":
+                    settings.KeyCode_DismissFishDialogue= keyCode;
+                    break;
+            }
+            return true;
         }
 
         private void InitTheme(bool darkModeTheme)

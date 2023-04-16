@@ -8,7 +8,7 @@ namespace ToF_Fishing_Bot
 
         public static string KeycodeToString(int keyCode)
         {
-            var buttonName = kc.ConvertToString(keyCode) ?? "UNKNOWN";
+            var buttonName = kc.ConvertToString(keyCode) ?? "???";
             return buttonName.ToUpper();
         }
     }
