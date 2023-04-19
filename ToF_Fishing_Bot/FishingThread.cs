@@ -9,6 +9,7 @@ using System.Windows.Threading;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using OpenCvSharp.XImgProc;
+using ToF_Fishing_Bot.Addon.DiscordInteractive;
 using WindowsInput;
 
 namespace ToF_Fishing_Bot
@@ -17,6 +18,8 @@ namespace ToF_Fishing_Bot
     {
         private IAppSettings settings;
         public bool isRunning = false;
+        private DateTime _startTime = DateTime.UtcNow;
+        private DateTime _lastResetTime = DateTime.UtcNow;
         private InputSimulator InputSimulator;
 
         private System.Windows.Shapes.Rectangle left;
@@ -57,9 +60,11 @@ namespace ToF_Fishing_Bot
 
         public IntPtr? GameHandle = null;
 
+        private IDiscordService discordService;
+
         public FishingThread(
-            IAppSettings _settings, 
-            System.Windows.Shapes.Rectangle _left, 
+            IAppSettings _settings,
+            System.Windows.Shapes.Rectangle _left,
             System.Windows.Shapes.Rectangle _right,
             System.Windows.Controls.Label _cursorLabel,
             System.Windows.Controls.Label _middleBarLabel,
@@ -97,6 +102,19 @@ namespace ToF_Fishing_Bot
             middleBarCenterThreshold = settings.MiddlebarColorDetectionThreshold;
 
             screenStateLogger = new ScreenStateLogger();
+
+            if (!string.IsNullOrEmpty(_settings.DiscordHookUrl))
+            {
+
+                try
+                {
+                    discordService = new DiscordService(_settings.DiscordHookUrl, _settings.DiscordUserId);
+                }
+                catch (ArgumentException e)
+                {
+                    // Send message that discord hook url is not valid
+                }
+            }
         }
 
         public void Start()
@@ -110,9 +128,9 @@ namespace ToF_Fishing_Bot
                 fishStaminaButton.Dispatcher.Invoke(new Action(() =>
                 {
                     fishStaminaButton.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(
-                        255, 
-                        fishStaminaDetected ? (byte)0 : (byte)255, 
-                        fishStaminaDetected ? (byte)255 : (byte)0, 
+                        255,
+                        fishStaminaDetected ? (byte)0 : (byte)255,
+                        fishStaminaDetected ? (byte)255 : (byte)0,
                         0));
                 }));
                 playerStaminaButton.Dispatcher.Invoke(new Action(() =>
@@ -135,6 +153,14 @@ namespace ToF_Fishing_Bot
                 switch (state)
                 {
                     case FishingState.NotFishing:
+                        if (discordService != null && DateTime.UtcNow - _lastResetTime > TimeSpan.FromMinutes(3))
+                        {
+                            var notificationMsgTask = discordService.BuildOutOfBaitNotification(_startTime);
+                            notificationMsgTask.Wait();
+                            var notificationMsg = notificationMsgTask.Result;
+                            var sendMsgTask = discordService.SendMessage(notificationMsg);
+                            sendMsgTask.Wait();
+                        }
                         break;
                     case FishingState.Fishing:
                         // HANDLER IS ABOVE
@@ -155,7 +181,8 @@ namespace ToF_Fishing_Bot
                 switch (state)
                 {
                     case FishingState.NotFishing:
-                        if (fishStaminaDetected && playerStaminaDetected) { 
+                        if (fishStaminaDetected && playerStaminaDetected)
+                        {
                             state = FishingState.Fishing;
                             PlayerStamina_lagCompensationDone = false;
                             LagCompensationDelay = new DispatcherTimer(DispatcherPriority.Send, dis);
@@ -212,7 +239,7 @@ namespace ToF_Fishing_Bot
                         ResetDelay.Start();
                         break;
                     case FishingState.ResetStart:
-                        // DO NOTHING
+                        _lastResetTime = DateTime.UtcNow;
                         break;
                     case FishingState.Reset:
                         state = FishingState.NotFishing;
@@ -220,6 +247,7 @@ namespace ToF_Fishing_Bot
                 }
             };
             isRunning = true;
+            _startTime = DateTime.UtcNow;
             screenStateLogger.Start();
         }
 
@@ -244,7 +272,8 @@ namespace ToF_Fishing_Bot
                   Cv2.WaitKey();*/
                 /*var frame = BitmapConverter.ToMat(OldCapture());*/
                 return frame;
-            } else
+            }
+            else
             {
                 var bordered = new Bitmap(cropped.Width * 4 + 20, cropped.Height * 4);
                 using (Graphics g = Graphics.FromImage(bordered))
@@ -265,8 +294,8 @@ namespace ToF_Fishing_Bot
         {
             System.Drawing.Color pixelColor = image.GetPixel(settings.FishStaminaPoint_X, settings.FishStaminaPoint_Y);
             var colorDistance = Math.Sqrt(
-                Math.Pow(pixelColor.R - settings.FishStaminaColor_R, 2) + 
-                Math.Pow(pixelColor.G - settings.FishStaminaColor_G, 2) + 
+                Math.Pow(pixelColor.R - settings.FishStaminaColor_R, 2) +
+                Math.Pow(pixelColor.G - settings.FishStaminaColor_G, 2) +
                 Math.Pow(pixelColor.B - settings.FishStaminaColor_B, 2));
             cursorLabel.Dispatcher.Invoke(new Action(() => { cursorLabel.Content = colorDistance.ToString("0.##"); }));
             return colorDistance < colorThreshold;
@@ -289,7 +318,7 @@ namespace ToF_Fishing_Bot
             {
                 if (!DPressed)
                 {
-                    if(GameHandle != null)
+                    if (GameHandle != null)
                     {
                         InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_A);
                         InputSimulator.Keyboard.KeyDownBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_D);
@@ -412,8 +441,8 @@ namespace ToF_Fishing_Bot
                 });
 
                 return (min_X + max_X) / 2.0;
-            } 
-            catch(Exception){}
+            }
+            catch (Exception) { }
             return 0;
         }
 
@@ -421,7 +450,7 @@ namespace ToF_Fishing_Bot
         {
             // MASK WHITE COLOR
             var lowerBoundsColor = new OpenCvSharp.Scalar(225, 225, 225, 255);
-            var upperBoundsColor = new OpenCvSharp.Scalar(255,255,255,255);
+            var upperBoundsColor = new OpenCvSharp.Scalar(255, 255, 255, 255);
 
             // GET X POSITION OF FISHING CURSOR
             var masked = new Mat();
@@ -463,7 +492,7 @@ namespace ToF_Fishing_Bot
 
                 return lines[0].Item0;
             }
-            catch (Exception){}
+            catch (Exception) { }
             return 0;
         }
 
@@ -471,7 +500,7 @@ namespace ToF_Fishing_Bot
         {
             if (GameHandle != null)
             {
-                InputSimulator.Keyboard.KeyDownBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode) settings.KeyCode_FishCapture);
+                InputSimulator.Keyboard.KeyDownBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_FishCapture);
                 InputSimulator.Mouse.Sleep(25);
                 InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_FishCapture);
                 InputSimulator.Mouse.Sleep(25);
