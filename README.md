@@ -150,15 +150,15 @@ Where `double_val` is a the amount of variance that the game will accept as the 
 Lower values means a stricter check but more false positives. Higher values means less strict but more false negatives.
 
 ## Discord Notification
-#### `"DiscordHookUrl": "<Discord_webhook_URL>"`
-Example: ```  "MiddlebarColorDetectionThreshold": "https://discordapp.com/api/webhooks/xxxx"```
+#### `"DiscordHookUrl": "<Discord_webhook_URL>"`  
+Example: ```"DiscordHookUrl": "https://discordapp.com/api/webhooks/xxxx"```  
 Default value: ""
 
 Where `Discord_webhook_URL` is a link of discord webhook, which can use to send a notification when bait is running out. How to get a `Discord_webhook_URL` you can see at [here](https://support.discord.com/hc/en-us/articles/228383668). After create a webhook, just simple click on `Copy Webhook URL` and paste the value to the setting. 
 
 ### If you want the hook mention you when send message
 #### `"DiscordUserId": "<Discord_User_Id>"`
-Example: ```  "MiddlebarColorDetectionThreshold": "123456789"```
+Example: ```"DiscordUserId": "123456789"```  
 Default value: ""
 
 Where `Discord_User_Id` is user id that you want to be mentioned. How to get a `Discord_User_Id` you can see at [here](https://support.discord.com/hc/vi/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-). After getting user id, just simple paste the value to the setting. **Note: Make sure the Id you having is User Id, not Message Id or Channel Id**
