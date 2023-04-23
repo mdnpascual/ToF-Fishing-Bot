@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using WindowsHook;
 
 namespace ToF_Fishing_Bot
@@ -151,8 +144,8 @@ namespace ToF_Fishing_Bot
             DimissDelayTextBox.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.WhiteColor;
             DimissDelayTextBox.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
 
-            ArrowRow7Column1.Source = darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage;
-            ArrowRow7Column2.Source = darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage;
+            ArrowRow7Column1.Source = RotateImage(darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage, 180);
+            ArrowRow7Column2.Source = RotateImage(darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage, 180);
 
             DelayFishCaptureLabel.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
             InfoRow7Column2.Source = darkModeTheme ? Theme.DayInfoImage : Theme.NightInfoImage;
@@ -267,6 +260,36 @@ namespace ToF_Fishing_Bot
             rotatedBitmap.EndInit();
 
             return rotatedBitmap;
+        }
+
+        private void PositiveNumbersOnlyValidation(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !(int.TryParse(((TextBox)sender).Text + e.Text, out int i) && i >= 0);
+        }
+
+        private void DelayTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SaveDelay(((TextBox)sender).Name, ((TextBox)sender).Text);
+        }
+
+        private void SaveDelay(string textBoxName, string value)
+        {
+            switch (textBoxName)
+            {
+                case "RestartDelayTextBox":
+                    settings.Delay_Restart = int.Parse(value);
+                    break;
+                case "LagCompensationDelayTextBox":
+                    settings.Delay_LagCompensation = int.Parse(value);
+                    break;
+                case "DimissDelayTextBox":
+                    settings.Delay_DismissFishCaptureDialogue = int.Parse(value);
+                    break;
+                case "FishCaptureDelayTextBox":
+                    settings.Delay_FishCapture = int.Parse(value);
+                    break;
+
+            }
         }
     }
 }

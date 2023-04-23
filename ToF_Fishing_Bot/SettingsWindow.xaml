@@ -5,21 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToF_Fishing_Bot"
         mc:Ignorable="d"
-        Title="SettingsWindow" Height="450" Width="800" Closed="SettingsWindow1_Closed">
+        Title="Settings" Height="470" Width="800" Closed="SettingsWindow1_Closed">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary 
+                <ResourceDictionary
                   Source="Resources/StylingDictionary.xaml">
                 </ResourceDictionary>
-                <!--<ResourceDictionary 
+                <!--<ResourceDictionary
                   Source="Resources/OthersStyle.xaml">
                 </ResourceDictionary>-->
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <GroupBox x:Name="ButtonsGBox" Header="Button Setup" Margin="0,8,518,101" Width="256">
+        <GroupBox x:Name="ButtonsGBox" Header="Button Setup" Margin="0,8,518,141" Width="256">
             <StackPanel Width="256">
                 <StackPanel Height="65" Orientation="Horizontal">
                     <Button x:Name="MoveLeftBtn" Click="MoveLeftBtn_Click" Height="50" Width="85" Style="{StaticResource btnRoundDark}" BorderThickness="2,2,2,2" Margin="16,0,0,0">
@@ -47,7 +47,7 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox x:Name="DelayGBox" Header="Delay Customization" Margin="268,8,8,21">
+        <GroupBox x:Name="DelayGBox" Header="Delay Customization" Margin="268,8,8,70">
             <StackPanel>
                 <StackPanel x:Name="DelayRow1" Height="30" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
                     <Label x:Name="LabelRow1" Content="Start" FontSize="16" Margin="1,0,15,0"/>
@@ -61,7 +61,7 @@
                             <Label x:Name="DelayRestartLabel" Content="Restart Delay" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12"/>
                             <Image x:Name="InfoRow3Column1" Source="/img/info_night.png" Height="15" Margin="-3,0,0,0" />
                         </StackPanel>
-                        <TextBox x:Name="RestartDelayTextBox" Width="90" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" TextAlignment="Center" />
+                        <TextBox x:Name="RestartDelayTextBox" TextChanged="DelayTextBox_TextChanged" PreviewTextInput="PositiveNumbersOnlyValidation" Width="90" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" TextAlignment="Center" />
                     </StackPanel>
                     <Image x:Name="ArrowRow3Column1" Source="/img/arrow_night.png" Height="30" Margin="1,0,25,0" />
                     <TextBlock x:Name="StaminaBarAppearsLabel" TextWrapping="Wrap" TextAlignment="Center" FontSize="14" Margin="1,0,1,0">Stamina<LineBreak/>Bar<LineBreak/>Appears</TextBlock>
@@ -71,7 +71,7 @@
                             <Label x:Name="DelayLagCompensationLabel" Content="Lag Comp Delay" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12"/>
                             <Image x:Name="InfoRow3Column2" Source="/img/info_night.png" Height="15" Margin="-3,0,0,0" />
                         </StackPanel>
-                        <TextBox x:Name="LagCompensationDelayTextBox" Width="90" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" TextAlignment="Center" />
+                        <TextBox x:Name="LagCompensationDelayTextBox" TextChanged="DelayTextBox_TextChanged" PreviewTextInput="PositiveNumbersOnlyValidation" Width="90" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" TextAlignment="Center" />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel x:Name="DelayRow4" Height="40" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -92,7 +92,7 @@
                             <Label x:Name="DelayDimissLabel" Content="Dimiss Delay" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12"/>
                             <Image x:Name="InfoRow7Column1" Source="/img/info_night.png" Height="15" Margin="-3,0,0,0" />
                         </StackPanel>
-                        <TextBox x:Name="DimissDelayTextBox" Width="90" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" TextAlignment="Center" />
+                        <TextBox x:Name="DimissDelayTextBox" TextChanged="DelayTextBox_TextChanged" PreviewTextInput="PositiveNumbersOnlyValidation" Width="90" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" TextAlignment="Center" />
                     </StackPanel>
                     <Image x:Name="ArrowRow7Column1" Source="/img/arrow_night.png" Height="30" Margin="1,0,25,0" />
                     <TextBlock x:Name="ReelInButtonLabel" TextWrapping="Wrap" TextAlignment="Center" FontSize="14" Margin="1,15,1,0">Reel-In<LineBreak/>Button<LineBreak/>Pressed</TextBlock>
@@ -102,7 +102,7 @@
                             <Label x:Name="DelayFishCaptureLabel" Content="Fish Capture Delay" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12"/>
                             <Image x:Name="InfoRow7Column2" Source="/img/info_night.png" Height="15" Margin="-3,0,0,0" />
                         </StackPanel>
-                        <TextBox x:Name="FishCaptureDelayTextBox" Width="90" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" TextAlignment="Center" />
+                        <TextBox x:Name="FishCaptureDelayTextBox" TextChanged="DelayTextBox_TextChanged" PreviewTextInput="PositiveNumbersOnlyValidation" Width="90" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" TextAlignment="Center" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

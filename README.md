@@ -87,7 +87,7 @@ After starting to fish, there is a delay/lag associated before the fish stamina 
 ## Delay before capturing fish after fish stamina detected has been depleted
 
 #### `"Delay_FishCapture": <delay_in_ms>`
-Example: ```  "Delay_FishCapture": "2000"``` (default)
+Example: ```  "Delay_FishCapture": "3000"``` (default)
 
 Where `delay_in_ms` is the delay in millisecond before the tool presses the reel-in hotkey.
 When the tool detects that the fish stamina is depleted, it will wait for this delay before capturing the fish.

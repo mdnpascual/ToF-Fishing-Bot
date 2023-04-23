@@ -60,7 +60,7 @@ namespace ToF_Fishing_Bot
         double MiddlebarColorDetectionThreshold { get; set; }
         [DefaultValue(5000)]
         int Delay_LagCompensation { get; set; }
-        [DefaultValue(2000)]
+        [DefaultValue(3000)]
         int Delay_FishCapture { get; set; }
         [DefaultValue(4000)]
         int Delay_DismissFishCaptureDialogue { get; set; }
