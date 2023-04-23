@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -28,6 +24,8 @@ namespace ToF_Fishing_Bot
         public static ImageSource NightSettingImage = new BitmapImage(new Uri("pack://application:,,,/img/setting_night.png"));
         public static ImageSource DayArrowImage = new BitmapImage(new Uri("pack://application:,,,/img/arrow_day.png"));
         public static ImageSource NightArrowImage = new BitmapImage(new Uri("pack://application:,,,/img/arrow_night.png"));
+        public static ImageSource DayInfoImage = new BitmapImage(new Uri("pack://application:,,,/img/info_day.png"));
+        public static ImageSource NightInfoImage = new BitmapImage(new Uri("pack://application:,,,/img/info_night.png"));
         public static ResourceDictionary Styling = new() { Source = new Uri("/Tof_Fishing_Bot;component/Resources/StylingDictionary.xaml", UriKind.RelativeOrAbsolute) };
         public static Style DarkStyle = Styling["btnRoundDark"] as Style;
         public static Style LightStyle = Styling["btnRoundLight"] as Style;

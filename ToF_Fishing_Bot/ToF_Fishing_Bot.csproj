@@ -15,6 +15,8 @@
     <None Remove="img\arrow_day.png" />
     <None Remove="img\arrow_night.png" />
     <None Remove="img\day.png" />
+    <None Remove="img\info_day.png" />
+    <None Remove="img\info_night.png" />
     <None Remove="img\night.png" />
     <None Remove="img\setting_day.png" />
     <None Remove="img\setting_night.png" />
@@ -28,6 +30,8 @@
     <Resource Include="img\arrow_day.png" />
     <Resource Include="img\arrow_night.png" />
     <Resource Include="img\day.png" />
+    <Resource Include="img\info_day.png" />
+    <Resource Include="img\info_night.png" />
     <Resource Include="img\night.png" />
     <Resource Include="img\setting_day.png" />
     <Resource Include="img\setting_night.png" />

@@ -87,6 +87,11 @@ namespace ToF_Fishing_Bot
             MoveRightLabel.Text = KeycodeHelper.KeycodeToString(settings.KeyCode_MoveRight);
             ReelInLabel.Text = KeycodeHelper.KeycodeToString(settings.KeyCode_FishCapture);
             DismissLabel.Text = KeycodeHelper.KeycodeToString(settings.KeyCode_DismissFishDialogue);
+            RestartDelayTextBox.Text = settings.Delay_Restart.ToString();
+            LagCompensationDelayTextBox.Text = settings.Delay_LagCompensation.ToString();
+            DimissDelayTextBox.Text = settings.Delay_DismissFishCaptureDialogue.ToString();
+            FishCaptureDelayTextBox.Text = settings.Delay_FishCapture.ToString();
+
 
             if (MoveLeftBtn.Background.ToString().Equals(Theme.ButtonDefaultBGColor.ToString()) || MoveLeftBtn.Background.ToString().Equals(Theme.ColorAccent2.ToString()))
             {
@@ -123,16 +128,36 @@ namespace ToF_Fishing_Bot
             ArrowRow2.Source = RotateImage(darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage, 90);
             // Row 3
             DelayRestartLabel.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            InfoRow3Column1.Source = darkModeTheme ? Theme.DayInfoImage : Theme.NightInfoImage;
             RestartDelayTextBox.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.WhiteColor;
             RestartDelayTextBox.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+
             ArrowRow3Column1.Source = darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage;
             ArrowRow3Column2.Source = darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage;
+
             DelayLagCompensationLabel.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            InfoRow3Column2.Source = darkModeTheme ? Theme.DayInfoImage : Theme.NightInfoImage;
             LagCompensationDelayTextBox.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.WhiteColor;
             LagCompensationDelayTextBox.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
             // Row 4
             ArrowRow4Column1.Source = RotateImage(darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage, 270);
             ArrowRow4Column2.Source = RotateImage(darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage, 90);
+            // Row 6
+            ArrowRow6Column1.Source = RotateImage(darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage, 270);
+            ArrowRow6Column2.Source = RotateImage(darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage, 90);
+            // Row 7
+            DelayDimissLabel.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            InfoRow7Column1.Source = darkModeTheme ? Theme.DayInfoImage : Theme.NightInfoImage;
+            DimissDelayTextBox.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.WhiteColor;
+            DimissDelayTextBox.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+
+            ArrowRow7Column1.Source = darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage;
+            ArrowRow7Column2.Source = darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage;
+
+            DelayFishCaptureLabel.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            InfoRow7Column2.Source = darkModeTheme ? Theme.DayInfoImage : Theme.NightInfoImage;
+            FishCaptureDelayTextBox.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.WhiteColor;
+            FishCaptureDelayTextBox.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
         }
         private void HandleHotkeyButtonClick(
             Button btn,
