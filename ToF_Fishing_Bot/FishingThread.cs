@@ -18,7 +18,7 @@ namespace ToF_Fishing_Bot
         private IAppSettings settings;
         public bool isRunning = false;
         private DateTime _startTime = DateTime.UtcNow;
-        private DateTime _lastResetTime = DateTime.UtcNow;
+        private DateTime? _lastResetTime = DateTime.UtcNow;
         private InputSimulator InputSimulator;
 
         private System.Windows.Shapes.Rectangle left;
@@ -149,13 +149,14 @@ namespace ToF_Fishing_Bot
                 switch (state)
                 {
                     case FishingState.NotFishing:
-                        if (discordService != null && DateTime.UtcNow - _lastResetTime > TimeSpan.FromMinutes(3))
+                        if (discordService != null && _lastResetTime != null && DateTime.UtcNow - _lastResetTime > TimeSpan.FromMinutes(3))
                         {
                             var notificationMsgTask = discordService.BuildOutOfBaitNotification(_startTime);
                             notificationMsgTask.Wait();
                             var notificationMsg = notificationMsgTask.Result;
                             var sendMsgTask = discordService.SendMessage(notificationMsg);
                             sendMsgTask.Wait();
+                            _lastResetTime = null;
                         }
                         break;
                     case FishingState.Fishing:
@@ -385,6 +386,7 @@ namespace ToF_Fishing_Bot
 
         public void Stop()
         {
+            _lastResetTime = null;
             screenStateLogger.Stop();
             screenStateLogger = new ScreenStateLogger();
         }
