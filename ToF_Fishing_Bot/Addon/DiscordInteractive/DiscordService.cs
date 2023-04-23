@@ -30,9 +30,23 @@ public class DiscordService : IDiscordService
     public DiscordService(string hookUrl, string? mentionId = null)
     {
         if (Uri.IsWellFormedUriString(hookUrl, UriKind.Absolute))
+        {
+            var uri = new Uri(hookUrl);
+            if (!uri.Host.Contains("discord.com", StringComparison.CurrentCultureIgnoreCase))
+            {
+                throw new ArgumentException("Discord HookUrl provided is not valid");
+            }
+            if (!uri.AbsolutePath.Contains("webhooks", StringComparison.CurrentCultureIgnoreCase))
+            {
+                throw new ArgumentException("Discord HookUrl provided is not valid");
+            }
             _hookUrl = hookUrl;
+
+        }
         else
-            throw new ArgumentException("hookUrl provided is not valid");
+        {
+            throw new ArgumentException("Discord HookUrl provided is not valid");
+        }
         _mentionId = mentionId;
     }
 

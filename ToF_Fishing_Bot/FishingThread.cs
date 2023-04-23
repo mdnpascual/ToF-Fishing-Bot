@@ -2,6 +2,8 @@
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -18,7 +20,7 @@ namespace ToF_Fishing_Bot
         private IAppSettings settings;
         public bool isRunning = false;
         private DateTime _startTime = DateTime.UtcNow;
-        private DateTime? _lastResetTime = DateTime.UtcNow;
+        private DateTime? _lastResetTime = null;
         private InputSimulator InputSimulator;
 
         private System.Windows.Shapes.Rectangle left;
@@ -104,11 +106,12 @@ namespace ToF_Fishing_Bot
 
                 try
                 {
+                    _lastResetTime = null;
                     discordService = new DiscordService(_settings.DiscordHookUrl, _settings.DiscordUserId);
                 }
                 catch (ArgumentException e)
                 {
-                    // Send message that discord hook url is not valid
+                    MessageBox.Show(e.Message, "Discord Hook URL invalid", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
