@@ -72,5 +72,10 @@ namespace ToF_Fishing_Bot
         int KeyCode_FishCapture { get; set; }
         [DefaultValue(27)]
         int KeyCode_DismissFishDialogue{ get; set; }
+
+        [DefaultValue("")]
+        string DiscordHookUrl { get; set; }
+        [DefaultValue("")]
+        string DiscordUserId { get; set; } // Put value here if you want the tool mention you
     }
 }
