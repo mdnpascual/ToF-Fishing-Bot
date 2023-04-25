@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using ToF_Fishing_Bot.Addon.DiscordInteractive;
 using WindowsHook;
 
 namespace ToF_Fishing_Bot
@@ -28,6 +24,9 @@ namespace ToF_Fishing_Bot
         private TextBlock activeLabel;
 
         private string savedHotkeyText = "";
+
+        private int _updateDiscordUser = 0;
+        private int _updateDiscordUrl = 0;
 
         public SettingsWindow(
             IAppSettings _settings,
@@ -81,6 +80,7 @@ namespace ToF_Fishing_Bot
             SettingsWindow1.Background = darkModeTheme ? Theme.ColorAccent1 : Theme.WhiteColor;
             ButtonsGBox.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
             DelayGBox.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            DiscordGBox.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
 
             MoveLeftLabel.Text = KeycodeHelper.KeycodeToString(settings.KeyCode_MoveLeft);
             MoveRightLabel.Text = KeycodeHelper.KeycodeToString(settings.KeyCode_MoveRight);
@@ -90,6 +90,8 @@ namespace ToF_Fishing_Bot
             LagCompensationDelayTextBox.Text = settings.Delay_LagCompensation.ToString();
             DimissDelayTextBox.Text = settings.Delay_DismissFishCaptureDialogue.ToString();
             FishCaptureDelayTextBox.Text = settings.Delay_FishCapture.ToString();
+            DiscordUserIdTextBox.Text = settings.DiscordUserId;
+            DiscordWeebHookTextBox.Text = settings.DiscordHookUrl;
 
 
             if (MoveLeftBtn.Background.ToString().Equals(Theme.ButtonDefaultBGColor.ToString()) || MoveLeftBtn.Background.ToString().Equals(Theme.ColorAccent2.ToString()))
@@ -157,6 +159,17 @@ namespace ToF_Fishing_Bot
             InfoRow7Column2.Source = darkModeTheme ? Theme.DayInfoImage : Theme.NightInfoImage;
             FishCaptureDelayTextBox.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.WhiteColor;
             FishCaptureDelayTextBox.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+
+            // Discord Interation
+            DiscordUserIdLabel.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            DiscordInfoRow1.Source = darkModeTheme ? Theme.DayInfoImage : Theme.NightInfoImage;
+            DiscordUserIdTextBox.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.WhiteColor;
+            DiscordUserIdTextBox.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+
+            DiscordWeebHookLabel.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            DiscordInfoRow2.Source = darkModeTheme ? Theme.DayInfoImage : Theme.NightInfoImage;
+            DiscordWeebHookTextBox.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.WhiteColor;
+            DiscordWeebHookTextBox.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
         }
         private void HandleHotkeyButtonClick(
             Button btn,
@@ -255,6 +268,24 @@ namespace ToF_Fishing_Bot
         private void SettingsWindow1_Closed(object sender, EventArgs e)
         {
             m_GlobalHook.KeyUp -= GlobalHookKeyUp;
+            if(string.IsNullOrEmpty(settings.DiscordHookUrl) is false && 
+                string.IsNullOrEmpty(settings.DiscordUserId) is false && 
+                (_updateDiscordUrl > 2 && _updateDiscordUser > 2))
+            {
+                try
+                {
+                    var discordService = new DiscordService(settings.DiscordHookUrl, settings.DiscordUserId);
+                    var notificationMsgTask = discordService.BuildGenericNotification("If you receive this message, then the Discord Integration settings is succesfuly setup");
+                    notificationMsgTask.Wait();
+                    var notificationMsg = notificationMsgTask.Result;
+                    var sendMsgTask = discordService.SendMessage(notificationMsg);
+                    sendMsgTask.Wait();
+                }
+                catch (ArgumentException error)
+                {
+                    MessageBox.Show(error.Message, "Discord Hook URL invalid", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         private TransformedBitmap RotateImage(ImageSource imageSource, int rotation)
@@ -275,26 +306,35 @@ namespace ToF_Fishing_Bot
 
         private void DelayTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            SaveDelay(((TextBox)sender).Name, ((TextBox)sender).Text);
+            SaveSettings(((TextBox)sender).Name, ((TextBox)sender).Text);
         }
 
-        private void SaveDelay(string textBoxName, string value)
+        private void SaveSettings(string textBoxName, string value)
         {
             switch (textBoxName)
             {
                 case "RestartDelayTextBox":
-                    settings.Delay_Restart = int.Parse(value);
-                    break;
+                    settings.Delay_Restart = int.Parse(value); break;
                 case "LagCompensationDelayTextBox":
-                    settings.Delay_LagCompensation = int.Parse(value);
-                    break;
+                    settings.Delay_LagCompensation = int.Parse(value); break;
                 case "DimissDelayTextBox":
-                    settings.Delay_DismissFishCaptureDialogue = int.Parse(value);
-                    break;
+                    settings.Delay_DismissFishCaptureDialogue = int.Parse(value); break;
                 case "FishCaptureDelayTextBox":
-                    settings.Delay_FishCapture = int.Parse(value);
+                    settings.Delay_FishCapture = int.Parse(value); break;
+                case "DiscordUserIdTextBox":
+                    if (_updateDiscordUser > 1)
+                    {
+                        settings.DiscordUserId = value;
+                    }
+                    _updateDiscordUser++;
                     break;
-
+                case "DiscordWeebHookTextBox":
+                    if (_updateDiscordUrl > 1)
+                    {
+                        settings.DiscordHookUrl = value;
+                    }
+                    _updateDiscordUrl++;
+                    break;
             }
         }
     }

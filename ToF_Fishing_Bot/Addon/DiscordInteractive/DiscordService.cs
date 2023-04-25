@@ -74,9 +74,8 @@ public class DiscordService : IDiscordService
         var strBuild = new StringBuilder("Hello");
         if (!string.IsNullOrEmpty(_mentionId))
         {
-            strBuild.Append($"<@!{_mentionId}>");
+            strBuild.Append($"<@!{_mentionId}>.");
         }
-        strBuild.AppendLine(". Thank for using fishing bot.");
         strBuild.AppendLine("This program is open source and free to use [here](https://github.com/mdnpascual/ToF-Fishing-Bot).");
         var hookContent = new HookContent()
         {
@@ -99,6 +98,21 @@ public class DiscordService : IDiscordService
             {
                 Text = "TOF Fishing Bot"
             }
+        };
+        return Task.FromResult(hookContent);
+    }
+
+    public Task<HookContent> BuildGenericNotification(string message)
+    {
+        var strBuild = new StringBuilder("Hello");
+        if (!string.IsNullOrEmpty(_mentionId))
+        {
+            strBuild.AppendLine($"<@!{_mentionId}>.");
+        }
+        strBuild.AppendLine(message);
+        var hookContent = new HookContent()
+        {
+            Content = strBuild.ToString()
         };
         return Task.FromResult(hookContent);
     }

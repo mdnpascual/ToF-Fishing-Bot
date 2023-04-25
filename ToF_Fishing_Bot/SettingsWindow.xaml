@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToF_Fishing_Bot"
         mc:Ignorable="d"
-        Title="Settings" Height="470" Width="800" Closed="SettingsWindow1_Closed">
+        Title="Settings" Height="495" Width="800" Closed="SettingsWindow1_Closed">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -19,7 +19,7 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <GroupBox x:Name="ButtonsGBox" Header="Button Setup" Margin="0,8,518,141" Width="256">
+        <GroupBox x:Name="ButtonsGBox" Header="Button Setup" Margin="0,8,518,166" Width="256">
             <StackPanel Width="256">
                 <StackPanel Height="65" Orientation="Horizontal">
                     <Button x:Name="MoveLeftBtn" Click="MoveLeftBtn_Click" Height="50" Width="85" Style="{StaticResource btnRoundDark}" BorderThickness="2,2,2,2" Margin="16,0,0,0">
@@ -47,7 +47,7 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox x:Name="DelayGBox" Header="Delay Customization" Margin="268,8,8,70">
+        <GroupBox x:Name="DelayGBox" Header="Delay Customization" Margin="268,8,8,96">
             <StackPanel>
                 <StackPanel x:Name="DelayRow1" Height="30" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
                     <Label x:Name="LabelRow1" Content="Start" FontSize="16" Margin="1,0,15,0"/>
@@ -107,6 +107,19 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-
+        <GroupBox x:Name="DiscordGBox" Header="Discord Integration" Margin="6,300,118,5" Width="666" BorderBrush="{x:Null}">
+            <StackPanel Width="666" HorizontalAlignment="Left">
+                <StackPanel Width="256" Height="30" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Label x:Name="DiscordUserIdLabel" Content="Discord User Id" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="12"/>
+                    <Image x:Name="DiscordInfoRow1" Source="/img/info_night.png" Height="15" Margin="-3,0,0,0" />
+                </StackPanel>
+                <TextBox x:Name="DiscordUserIdTextBox" TextChanged="DelayTextBox_TextChanged" PreviewTextInput="PositiveNumbersOnlyValidation" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" TextAlignment="Center" Text="NOT_EMPTY" />
+                <StackPanel Width="756" Height="30" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Label x:Name="DiscordWeebHookLabel" Content="Discord Webhook URL" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="12"/>
+                    <Image x:Name="DiscordInfoRow2" Source="/img/info_night.png" Height="15" Margin="-3,0,0,0" />
+                </StackPanel>
+                <TextBox x:Name="DiscordWeebHookTextBox" TextChanged="DelayTextBox_TextChanged" Width="650" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" TextAlignment="Left" TextWrapping="Wrap" AcceptsReturn="True" Height="45" Text="NOT_EMPTY" />
+            </StackPanel>
+        </GroupBox>
     </Grid>
 </Window>
