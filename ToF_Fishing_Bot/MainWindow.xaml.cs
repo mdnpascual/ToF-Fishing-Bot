@@ -8,7 +8,6 @@ using WindowsHook;
 using System.Drawing;
 using Config.Net;
 using System.Threading;
-using System.Windows.Media.Imaging;
 using System.Diagnostics;
 using System.Linq;
 
@@ -29,12 +28,6 @@ namespace ToF_Fishing_Bot
         private TextBlock activeLabel = new();
         private TextBlock activeCoordsLabel = new();
         private string backupButtonText = String.Empty;
-
-        private ImageSource dayImage = new BitmapImage(new Uri("pack://application:,,,/img/day.png"));
-        private ImageSource nightImage = new BitmapImage(new Uri("pack://application:,,,/img/night.png"));
-        private ResourceDictionary styling = new() { Source = new Uri("/Tof_Fishing_Bot;component/Resources/StylingDictionary.xaml", UriKind.RelativeOrAbsolute) };
-        private Style darkStyle = new();
-        private Style lightStyle = new();
 
         private IAppSettings settings;
         private IKeyboardMouseEvents m_GlobalHook;
@@ -57,18 +50,6 @@ namespace ToF_Fishing_Bot
 
             ReadSettings();
             InitTheme(isDarkMode);
-
-            if(styling != null)
-            {
-#pragma warning disable CS8601 // Possible null reference assignment.
-                darkStyle = styling["btnRoundDark"] as Style;
-                lightStyle = styling["btnRoundLight"] as Style;
-#pragma warning restore CS8601 // Possible null reference assignment.
-            }
-            else
-            {
-                MessageBox.Show("Styling Not Found. This shouldn't happen", "Internal Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
 
             if (timer == null)
             {
@@ -98,16 +79,21 @@ namespace ToF_Fishing_Bot
             if (inEyeDropMode || inCoordSelectMode)
             {
                 WriteSettings();
-                activeLabel.Text = backupButtonText;
                 timer.Stop();
-                inEyeDropMode = false;
-                inCoordSelectMode = false;
-                activeButton = defaultButton;
-                activeLabel = new();
-                activeCoordsLabel = new();
-                backupButtonText = String.Empty;
+                ResetTempVars();
                 lens_form.Dispose();
             }
+        }
+
+        private void ResetTempVars()
+        {
+            activeLabel.Text = backupButtonText;
+            inEyeDropMode = false;
+            inCoordSelectMode = false;
+            activeButton = defaultButton;
+            activeLabel = new();
+            activeCoordsLabel = new();
+            backupButtonText = String.Empty;
         }
 
         private void GlobalHookMouseMove(object? sender, MouseEventExtArgs e)
@@ -132,7 +118,6 @@ namespace ToF_Fishing_Bot
             activeLabel = new();
             activeCoordsLabel = new();
         }
-
 
         void timer_Tick(object sender, EventArgs e)
         {
@@ -266,6 +251,9 @@ namespace ToF_Fishing_Bot
             LowerRightCoords.Text = "X: " + settings.LowerRightBarPoint_X + "\nY: " + settings.LowerRightBarPoint_Y;
 
             isDarkMode = settings.IsDarkMode > 0;
+
+            MoveLeftLabel.Text = KeycodeHelper.KeycodeToString(settings.KeyCode_MoveLeft);
+            MoveRightLabel.Text = KeycodeHelper.KeycodeToString(settings.KeyCode_MoveRight);
         }
 
         private bool WriteSettings()
@@ -420,80 +408,85 @@ namespace ToF_Fishing_Bot
 
         private void InitTheme(bool darkModeTheme)
         {
-            ThemeModeImg.Source = darkModeTheme ? dayImage : nightImage;
-            MainWindows.Background = darkModeTheme ? ColorAccent1 : WhiteColor;
-            MiddleBarGBox.Foreground = darkModeTheme ? ColorAccent4 : BlackColor;
-            MiddleBarGBox.BorderBrush = darkModeTheme ? ColorAccent2 : GBoxDefaultBorderColor;
-            StaminaGBox.Foreground = darkModeTheme ? ColorAccent4 : BlackColor;
-            StaminaGBox.BorderBrush = darkModeTheme ? ColorAccent2 : GBoxDefaultBorderColor;
-            OutputGBox.Foreground = darkModeTheme ? ColorAccent4 : BlackColor;
-            OutputGBox.BorderBrush = darkModeTheme ? ColorAccent2 : GBoxDefaultBorderColor;
-            cursor.Foreground = darkModeTheme ? ColorAccent4 : BlackColor;
-            bar.Foreground = darkModeTheme ? ColorAccent4 : BlackColor;
-            StatusLabel.Foreground = darkModeTheme ? ColorAccent4 : BlackColor;
-            LeftBox.Stroke = darkModeTheme ? ColorAccent3 : BlackColor;
-            RightBox.Stroke = darkModeTheme ? ColorAccent3 : BlackColor;
+            ThemeModeImg.Source = darkModeTheme ? Theme.DayImage : Theme.NightImage;
+            SettingImg.Source = darkModeTheme ? Theme.DaySettingImage : Theme.NightSettingImage;
+            MainWindows.Background = darkModeTheme ? Theme.ColorAccent1 : Theme.WhiteColor;
+            MiddleBarGBox.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            MiddleBarGBox.BorderBrush = darkModeTheme ? Theme.ColorAccent2 : Theme.GBoxDefaultBorderColor;
+            StaminaGBox.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            StaminaGBox.BorderBrush = darkModeTheme ? Theme.ColorAccent2 : Theme.GBoxDefaultBorderColor;
+            OutputGBox.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            OutputGBox.BorderBrush = darkModeTheme ? Theme.ColorAccent2 : Theme.GBoxDefaultBorderColor;
+            cursor.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            bar.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            StatusLabel.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            LeftBox.Stroke = darkModeTheme ? Theme.ColorAccent3 : Theme.BlackColor;
+            RightBox.Stroke = darkModeTheme ? Theme.ColorAccent3 : Theme.BlackColor;
 
-            if (UpperLeftBtn.Background.ToString().Equals(ButtonDefaultBGColor.ToString()) || UpperLeftBtn.Background.ToString().Equals(ColorAccent2.ToString()))
+            if (UpperLeftBtn.Background.ToString().Equals(Theme.ButtonDefaultBGColor.ToString()) || UpperLeftBtn.Background.ToString().Equals(Theme.ColorAccent2.ToString()))
             {
-                UpperLeftBtn.Background = darkModeTheme ? ColorAccent2 : ButtonDefaultBGColor;
-                UpperLeftBtn.Style = darkModeTheme ? darkStyle : lightStyle;
-                UpperLeftLabel.Foreground = darkModeTheme ? ColorAccent5 : BlackColor;
+                UpperLeftBtn.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.ButtonDefaultBGColor;
+                UpperLeftBtn.Style = darkModeTheme ? Theme.DarkStyle : Theme.LightStyle;
+                UpperLeftLabel.Foreground = darkModeTheme ? Theme.ColorAccent5 : Theme.BlackColor;
             }
-            if (MiddleBarColorBtn.Background.ToString().Equals(ButtonDefaultBGColor.ToString()) || MiddleBarColorBtn.Background.ToString().Equals(ColorAccent2.ToString()))
+            if (MiddleBarColorBtn.Background.ToString().Equals(Theme.ButtonDefaultBGColor.ToString()) || MiddleBarColorBtn.Background.ToString().Equals(Theme.ColorAccent2.ToString()))
             {
-                MiddleBarColorBtn.Background = darkModeTheme ? ColorAccent2 : ButtonDefaultBGColor;
-                MiddleBarColorBtn.Style = darkModeTheme ? darkStyle : lightStyle;
-                MiddleBarColorLabel.Foreground = darkModeTheme ? ColorAccent5 : BlackColor;
+                MiddleBarColorBtn.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.ButtonDefaultBGColor;
+                MiddleBarColorBtn.Style = darkModeTheme ? Theme.DarkStyle : Theme.LightStyle;
+                MiddleBarColorLabel.Foreground = darkModeTheme ? Theme.ColorAccent5 : Theme.BlackColor;
             }
-            if (LowerRightBtn.Background.ToString().Equals(ButtonDefaultBGColor.ToString()) || LowerRightBtn.Background.ToString().Equals(ColorAccent2.ToString()))
+            if (LowerRightBtn.Background.ToString().Equals(Theme.ButtonDefaultBGColor.ToString()) || LowerRightBtn.Background.ToString().Equals(Theme.ColorAccent2.ToString()))
             {
-                LowerRightBtn.Background = darkModeTheme ? ColorAccent2 : ButtonDefaultBGColor;
-                LowerRightBtn.Style = darkModeTheme ? darkStyle : lightStyle;
-                LowerRightLabel.Foreground = darkModeTheme ? ColorAccent5 : BlackColor;
+                LowerRightBtn.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.ButtonDefaultBGColor;
+                LowerRightBtn.Style = darkModeTheme ? Theme.DarkStyle : Theme.LightStyle;
+                LowerRightLabel.Foreground = darkModeTheme ? Theme.ColorAccent5 : Theme.BlackColor;
             }
-            if (FishStaminaColorBtn.Background.ToString().Equals(ButtonDefaultBGColor.ToString()) || FishStaminaColorBtn.Background.ToString().Equals(ColorAccent2.ToString()))
+            if (FishStaminaColorBtn.Background.ToString().Equals(Theme.ButtonDefaultBGColor.ToString()) || FishStaminaColorBtn.Background.ToString().Equals(Theme.ColorAccent2.ToString()))
             {
-                FishStaminaColorBtn.Background = darkModeTheme ? ColorAccent2 : ButtonDefaultBGColor;
-                FishStaminaColorBtn.Style = darkModeTheme ? darkStyle : lightStyle;
-                FishStaminaColorLabel.Foreground = darkModeTheme ? ColorAccent5 : BlackColor;
+                FishStaminaColorBtn.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.ButtonDefaultBGColor;
+                FishStaminaColorBtn.Style = darkModeTheme ? Theme.DarkStyle : Theme.LightStyle;
+                FishStaminaColorLabel.Foreground = darkModeTheme ? Theme.ColorAccent5 : Theme.BlackColor;
             }
-            if (PlayerStaminaColorBtn.Background.ToString().Equals(ButtonDefaultBGColor.ToString()) || PlayerStaminaColorBtn.Background.ToString().Equals(ColorAccent2.ToString()))
+            if (PlayerStaminaColorBtn.Background.ToString().Equals(Theme.ButtonDefaultBGColor.ToString()) || PlayerStaminaColorBtn.Background.ToString().Equals(Theme.ColorAccent2.ToString()))
             {
-                PlayerStaminaColorBtn.Background = darkModeTheme ? ColorAccent2 : ButtonDefaultBGColor;
-                PlayerStaminaColorBtn.Style = darkModeTheme ? darkStyle : lightStyle;
-                PlayerStaminaColorLabel.Foreground = darkModeTheme ? ColorAccent5 : BlackColor;
+                PlayerStaminaColorBtn.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.ButtonDefaultBGColor;
+                PlayerStaminaColorBtn.Style = darkModeTheme ? Theme.DarkStyle : Theme.LightStyle;
+                PlayerStaminaColorLabel.Foreground = darkModeTheme ? Theme.ColorAccent5 : Theme.BlackColor;
             }
-            if (StartBtn.Background.ToString().Equals(ButtonDefaultBGColor.ToString()) || StartBtn.Background.ToString().Equals(ColorAccent2.ToString()))
+            if (StartBtn.Background.ToString().Equals(Theme.ButtonDefaultBGColor.ToString()) || StartBtn.Background.ToString().Equals(Theme.ColorAccent2.ToString()))
             {
-                StartBtn.Background = darkModeTheme ? ColorAccent2 : ButtonDefaultBGColor;
-                StartBtn.Style = darkModeTheme ? darkStyle : lightStyle;
-                StartLabel.Foreground = darkModeTheme ? ColorAccent5 : BlackColor;
+                StartBtn.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.ButtonDefaultBGColor;
+                StartBtn.Style = darkModeTheme ? Theme.DarkStyle : Theme.LightStyle;
+                StartLabel.Foreground = darkModeTheme ? Theme.ColorAccent5 : Theme.BlackColor;
             }
-            if (ThemeModeBtn.Background.ToString().Equals(ButtonDefaultBGColor.ToString()) || ThemeModeBtn.Background.ToString().Equals(ColorAccent2.ToString()))
+            if (ThemeModeBtn.Background.ToString().Equals(Theme.ButtonDefaultBGColor.ToString()) || ThemeModeBtn.Background.ToString().Equals(Theme.ColorAccent2.ToString()))
             {
-                ThemeModeBtn.Background = darkModeTheme ? ColorAccent2 : ButtonDefaultBGColor;
-                ThemeModeBtn.Style = darkModeTheme ? darkStyle : lightStyle;
+                ThemeModeBtn.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.ButtonDefaultBGColor;
+                ThemeModeBtn.Style = darkModeTheme ? Theme.DarkStyle : Theme.LightStyle;
             }
-            if (LeftBox.Fill.ToString().Equals(ColorAccent3.ToString()) || LeftBox.Fill.ToString().Equals(GreenColor.ToString()))
+            if (SettingBtn.Background.ToString().Equals(Theme.ButtonDefaultBGColor.ToString()) || SettingBtn.Background.ToString().Equals(Theme.ColorAccent2.ToString()))
             {
-                LeftBox.Fill = darkModeTheme ? ColorAccent3 : GreenColor;
+                SettingBtn.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.ButtonDefaultBGColor;
+                SettingBtn.Style = darkModeTheme ? Theme.DarkStyle : Theme.LightStyle;
             }
-            if (RightBox.Fill.ToString().Equals(ColorAccent3.ToString()) || RightBox.Fill.ToString().Equals(GreenColor.ToString()))
+            if (LeftBox.Fill.ToString().Equals(Theme.ColorAccent3.ToString()) || LeftBox.Fill.ToString().Equals(Theme.GreenColor.ToString()))
             {
-                RightBox.Fill = darkModeTheme ? ColorAccent3 : GreenColor;
+                LeftBox.Fill = darkModeTheme ? Theme.ColorAccent3 : Theme.GreenColor;
+            }
+            if (RightBox.Fill.ToString().Equals(Theme.ColorAccent3.ToString()) || RightBox.Fill.ToString().Equals(Theme.GreenColor.ToString()))
+            {
+                RightBox.Fill = darkModeTheme ? Theme.ColorAccent3 : Theme.GreenColor;
             }
         }
 
-        private readonly SolidColorBrush WhiteColor = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 255, 255));
-        private readonly SolidColorBrush BlackColor = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 0, 0, 0));
-        private readonly SolidColorBrush GreenColor = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 0, 255, 0));
-        private readonly SolidColorBrush GBoxDefaultBorderColor = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 213, 223, 229));
-        private readonly SolidColorBrush ButtonDefaultBGColor = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 221, 221, 221));
-        private readonly SolidColorBrush ColorAccent1 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 9, 25, 40));
-        private readonly SolidColorBrush ColorAccent2 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 26, 72, 116));
-        private readonly SolidColorBrush ColorAccent3 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 53, 167, 241));
-        private readonly SolidColorBrush ColorAccent4 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 141, 203, 246));
-        private readonly SolidColorBrush ColorAccent5 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 226, 242, 252));
+        private void SettingBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (!inEyeDropMode && !inCoordSelectMode)
+            {
+                SettingsWindow settingWindow = new(settings, m_GlobalHook);
+                settingWindow.ShowDialog();
+                ReadSettings();
+            }
+        }
     }
 }

@@ -39,9 +39,6 @@ namespace ToF_Fishing_Bot
         private bool PlayerStamina_lagCompensationDone = false;
         private DispatcherTimer LagCompensationDelay = new();
 
-        private readonly SolidColorBrush GreenColor = new(System.Windows.Media.Color.FromArgb(255, 0, 255, 0));
-        private readonly SolidColorBrush ColorAccent2 = new(System.Windows.Media.Color.FromArgb(255, 0, 138, 205));
-
         private Bitmap bmp = new(1, 1);
         private BitmapImage bi1;
         private BitmapImage bi2;
@@ -323,15 +320,15 @@ namespace ToF_Fishing_Bot
                 {
                     if (GameHandle != null)
                     {
-                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_A);
-                        InputSimulator.Keyboard.KeyDownBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_D);
+                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_MoveLeft);
+                        InputSimulator.Keyboard.KeyDownBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_MoveRight);
                     }
                     DPressed = true;
                     APressed = false;
 
                     right.Dispatcher.Invoke(() =>
                     {
-                        right.Fill = settings.IsDarkMode > 0 ? ColorAccent2 : GreenColor;
+                        right.Fill = settings.IsDarkMode > 0 ? Theme.ColorAccent2 : Theme.GreenColor;
                     });
                     left.Dispatcher.Invoke(() =>
                     {
@@ -345,15 +342,15 @@ namespace ToF_Fishing_Bot
                 {
                     if (GameHandle != null)
                     {
-                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_D);
-                        InputSimulator.Keyboard.KeyDownBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_A);
+                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_MoveRight);
+                        InputSimulator.Keyboard.KeyDownBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_MoveLeft);
                     }
                     DPressed = false;
                     APressed = true;
 
                     left.Dispatcher.Invoke(() =>
                     {
-                        left.Fill = settings.IsDarkMode > 0 ? ColorAccent2 : GreenColor;
+                        left.Fill = settings.IsDarkMode > 0 ? Theme.ColorAccent2 : Theme.GreenColor;
                     });
                     right.Dispatcher.Invoke(() =>
                     {
@@ -367,7 +364,7 @@ namespace ToF_Fishing_Bot
                 {
                     if (GameHandle != null)
                     {
-                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_A);
+                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_MoveLeft);
                     }
                     APressed = false;
                     left.Dispatcher.Invoke(() =>
@@ -379,7 +376,7 @@ namespace ToF_Fishing_Bot
                 {
                     if (GameHandle != null)
                     {
-                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_D);
+                        InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_MoveRight);
                     }
                     DPressed = false;
                     right.Dispatcher.Invoke(() =>
@@ -526,7 +523,7 @@ namespace ToF_Fishing_Bot
         {
             if (GameHandle != null)
             {
-                InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_A);
+                InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_MoveLeft);
             }
             APressed = false;
             left.Dispatcher.Invoke(() =>
@@ -536,7 +533,7 @@ namespace ToF_Fishing_Bot
 
             if (GameHandle != null)
             {
-                InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, WindowsInput.Native.VirtualKeyCode.VK_D);
+                InputSimulator.Keyboard.KeyUpBackground(GameHandle.Value, (WindowsInput.Native.VirtualKeyCode)settings.KeyCode_MoveRight);
             }
             DPressed = false;
             right.Dispatcher.Invoke(() =>
@@ -544,9 +541,6 @@ namespace ToF_Fishing_Bot
                 right.Fill = System.Windows.Media.Brushes.Transparent;
             });
         }
-
-        [DllImport("user32.dll", EntryPoint = "SetCursorPos")]
-        private static extern int SetCursorPos(int x, int y);
 
         enum FishingState
         {

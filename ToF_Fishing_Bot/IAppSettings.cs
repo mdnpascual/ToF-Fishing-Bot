@@ -60,7 +60,7 @@ namespace ToF_Fishing_Bot
         double MiddlebarColorDetectionThreshold { get; set; }
         [DefaultValue(5000)]
         int Delay_LagCompensation { get; set; }
-        [DefaultValue(2000)]
+        [DefaultValue(3000)]
         int Delay_FishCapture { get; set; }
         [DefaultValue(4000)]
         int Delay_DismissFishCaptureDialogue { get; set; }
@@ -72,6 +72,10 @@ namespace ToF_Fishing_Bot
         int KeyCode_FishCapture { get; set; }
         [DefaultValue(27)]
         int KeyCode_DismissFishDialogue{ get; set; }
+        [DefaultValue(65)]
+        int KeyCode_MoveLeft { get; set; }
+        [DefaultValue(68)]
+        int KeyCode_MoveRight { get; set; }
 
         [DefaultValue("")]
         string DiscordHookUrl { get; set; }
