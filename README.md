@@ -57,55 +57,25 @@ Download and Install: https://dotnet.microsoft.com/en-us/download/dotnet/6.0 (.N
 
 - Some other programs are interfering with the mouse/keyboard detection. I cannot help with this one unfortunately as I'm just using an external package to send/detect the mouse position.
 
+# Discord Notification
+
+### The tool can notify you via Discord when you run out of bait. You need to setup two things on the settings for this to work
+
+#### `Discord Webhook URL`
+
+You need to have your own Discord Server OR have a permission on a Discord Server to set up Integrations for this to work.
+Create a webhook but following this [tutorial](https://support.discord.com/hc/en-us/articles/228383668).
+After creating your webhook, Click on `Copy Webhook URL` and paste the value to the setting.
+
+#### `Discord User Id`
+
+Is the user id that you want to be pinged/mentioned. Follow this [tutorial](https://support.discord.com/hc/vi/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-) on how to get your user id. **Note: Make sure the Id you having is User Id, not Message Id or Channel Id**
+
 # Advanced Customization
 
 ### This section explains how you can customize certain aspectos or behaviour of the tool.
 
 After setting up the tool for the first time, you should see a `settings.json` file on the same folder of the executable. Open it, and add and entry if needed
-
-## Button for Fish Capture
-#### `"KeyCode_FishCapture": <keycode_intval>`
-Example: ```  "KeyCode_FishCapture": "49"``` (default)
-
-Where `keycode_intval` is the value of the keycode in integer. To set your custom hotkey to capture the fish, Please refer to: http://www.foreui.com/articles/Key_Code_Table.htm
-In the example above, the value of 49 represent the Keyboard Input "1".
-
-## Button to dismiss Fish Capture Dialogue
-#### `"KeyCode_DismissFishDialogue": <keycode_intval>`
-Example: ```  "KeyCode_DismissFishDialogue": "27"``` (default)
-
-Where `keycode_intval` is the value of the keycode in integer. To set your custom hotkey to dismiss the fish capture dialogue, Please refer to: http://www.foreui.com/articles/Key_Code_Table.htm
-In the example above, the value of 27 represent the Keyboard Input "Escape".
-
-## Delay for Lag Compensation at start of fishing
-#### `"Delay_LagCompensation": <delay_in_ms>`
-Example: ```  "Delay_LagCompensation": "5000"``` (default)
-
-Where `delay_in_ms` is the delay in millisecond to prevent the tool by reeling in immediatly after starting.
-After starting to fish, there is a delay/lag associated before the fish stamina is filled. This is the delay to compensate for that.
-
-## Delay before capturing fish after fish stamina detected has been depleted
-
-#### `"Delay_FishCapture": <delay_in_ms>`
-Example: ```  "Delay_FishCapture": "3000"``` (default)
-
-Where `delay_in_ms` is the delay in millisecond before the tool presses the reel-in hotkey.
-When the tool detects that the fish stamina is depleted, it will wait for this delay before capturing the fish.
-If you notice that the tool sometimes pre-emptively catches a fish on higher stamina fish or alphas, then increasing this delay will force the tool to wait longer before capturing the fish.
-
-## Delay before dismissing the Fish Capture screen
-#### `"Delay_DismissFishCaptureDialogue": <delay_in_ms>`
-Example: ```  "Delay_DismissFishCaptureDialogue": "4000"``` (default)
-
-Where `delay_in_ms` is the delay in millisecond before the tool presses the ESC Key after capturing the fish.
-This is needed when you don't have all the alphas caught.
-If you have all the alphas caught and want to speed up the fishing loop a bit, you can change this down to 2000
-
-## Delay before restarting the process again
-#### `"Delay_Restart": <delay_in_ms>`
-Example: ```  "Delay_Restart": "2000"``` (default)
-
-Where `delay_in_ms` is the delay in millisecond before the tool restarts the fishing process again after pressing the ESC Key.
 
 ## Minimum height on middle bar
 #### `"MinimumMiddleBarHeight": <pixel_difference>`
@@ -152,17 +122,3 @@ Example: ```  "MiddlebarColorDetectionThreshold": "10.0"``` (default)
 
 Where `double_val` is a the amount of variance that the game will accept as the correct color for the middle bar.
 Lower values means a stricter check but more false positives. Higher values means less strict but more false negatives.
-
-## Discord Notification
-#### `"DiscordHookUrl": "<Discord_webhook_URL>"`  
-Example: ```"DiscordHookUrl": "https://discordapp.com/api/webhooks/xxxx"```  
-Default value: ""
-
-Where `Discord_webhook_URL` is a link of discord webhook, which can use to send a notification when bait is running out. How to get a `Discord_webhook_URL` you can see at [here](https://support.discord.com/hc/en-us/articles/228383668). After create a webhook, just simple click on `Copy Webhook URL` and paste the value to the setting. 
-
-### If you want the hook mention you when send message
-#### `"DiscordUserId": "<Discord_User_Id>"`
-Example: ```"DiscordUserId": "123456789"```  
-Default value: ""
-
-Where `Discord_User_Id` is user id that you want to be mentioned. How to get a `Discord_User_Id` you can see at [here](https://support.discord.com/hc/vi/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-). After getting user id, just simple paste the value to the setting. **Note: Make sure the Id you having is User Id, not Message Id or Channel Id**

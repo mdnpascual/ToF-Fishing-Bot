@@ -43,7 +43,7 @@
                     <Button x:Name="DismissBtn" Click="DismissBtn_Click" Height="50" Width="85" Style="{StaticResource btnRoundDark}" BorderThickness="2,2,2,2" Margin="16,0,0,0">
                         <TextBlock x:Name="DismissLabel" TextWrapping="Wrap" TextAlignment="Center" FontSize="24" Text="ESC"/>
                     </Button>
-                    <Label x:Name="DismissDescription" Content="Reel-In Hotkey&#xD;&#xA;(Default: ESC)&#xD;&#xA;" VerticalAlignment="Center" Width="132" VerticalContentAlignment="Center" Height="42" HorizontalAlignment="Left" Margin="16,0,0,0"/>
+                    <Label x:Name="DismissDescription" Content="Dismiss Hotkey&#xD;&#xA;(Default: ESC)&#xD;&#xA;" VerticalAlignment="Center" Width="132" VerticalContentAlignment="Center" Height="42" HorizontalAlignment="Left" Margin="16,0,0,0"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
@@ -59,7 +59,20 @@
                     <StackPanel x:Name="DelayRestartGBox" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="1,0,25,0" >
                         <StackPanel x:Name="DelayRow3Label" Height="30" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
                             <Label x:Name="DelayRestartLabel" Content="Restart Delay" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12"/>
-                            <Image x:Name="InfoRow3Column1" Source="/img/info_night.png" Height="15" Margin="-3,0,0,0" />
+                            <Image x:Name="InfoRow3Column1" Source="/img/info_night.png" Height="15" Margin="-3,0,0,0" ToolTipService.InitialShowDelay="400">
+                                <Image.ToolTip>
+                                    <ToolTip x:Name="DelayRestartTooltip">
+                                        <StackPanel Width="430">
+                                            <StackPanel x:Name="DelayRestartTooltipHeader" Orientation="Horizontal" Background="Tan" Width="430">
+                                                <Label x:Name="DelayRestartTooltipHeaderValue" Content="Delay before dismissing the Capture screen" Margin="10 5" FontSize="20" FontWeight="Bold"></Label>
+                                            </StackPanel>
+                                            <TextBlock x:Name="DelayRestartTooltipDescription" Text="Delay before the tool restarts the fishing process again after pressing the Dismiss Hotkey" FontSize="14" TextWrapping="WrapWithOverflow"></TextBlock>
+                                            <Line x:Name="DelayRestartTooltipLine" Stroke="Gray" StrokeThickness="2" X2="200" Margin="0,3,0,3"></Line>
+                                            <TextBlock x:Name="DelayRestartTooltipDefault" Text="Value in ms. Default Value: 2000" FontWeight="ExtraBold"></TextBlock>
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Image.ToolTip>
+                            </Image>
                         </StackPanel>
                         <TextBox x:Name="RestartDelayTextBox" TextChanged="DelayTextBox_TextChanged" PreviewTextInput="PositiveNumbersOnlyValidation" Width="90" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" TextAlignment="Center" />
                     </StackPanel>
@@ -69,7 +82,20 @@
                     <StackPanel x:Name="DelayLagCompensationGBox" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="1,0,1,0" >
                         <StackPanel x:Name="DelayRow3Column2Label" Height="30" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
                             <Label x:Name="DelayLagCompensationLabel" Content="Lag Comp Delay" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12"/>
-                            <Image x:Name="InfoRow3Column2" Source="/img/info_night.png" Height="15" Margin="-3,0,0,0" />
+                            <Image x:Name="InfoRow3Column2" Source="/img/info_night.png" Height="15" Margin="-3,0,0,0" ToolTipService.InitialShowDelay="400">
+                                <Image.ToolTip>
+                                    <ToolTip x:Name="DelayLagCompensationTooltip">
+                                        <StackPanel Width="430">
+                                            <StackPanel x:Name="DelayLagCompensationTooltipHeader" Orientation="Horizontal" Background="Tan" Width="430">
+                                                <Label x:Name="DelayLagCompensationTooltipHeaderValue" Content="Lag Compensation Delay at start of fishing" Margin="10 5" FontSize="20" FontWeight="Bold"></Label>
+                                            </StackPanel>
+                                            <TextBlock x:Name="DelayLagCompensationTooltipDescription" Text="Delay to prevent the tool by reeling in immediatly after starting. After starting to fish, there is a delay/lag associated before the fish stamina is filled. This is the delay to compensate for that." FontSize="14" TextWrapping="WrapWithOverflow"></TextBlock>
+                                            <Line x:Name="DelayLagCompensationTooltipLine" Stroke="Gray" StrokeThickness="2" X2="200" Margin="0,3,0,3"></Line>
+                                            <TextBlock x:Name="DelayLagCompensationTooltipDefault" Text="Value in ms. Default Value: 5000" FontWeight="ExtraBold"></TextBlock>
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Image.ToolTip>
+                            </Image>
                         </StackPanel>
                         <TextBox x:Name="LagCompensationDelayTextBox" TextChanged="DelayTextBox_TextChanged" PreviewTextInput="PositiveNumbersOnlyValidation" Width="90" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" TextAlignment="Center" />
                     </StackPanel>
@@ -90,7 +116,20 @@
                     <StackPanel x:Name="DelayDimissGBox" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="7,0,23,0" >
                         <StackPanel x:Name="DelayRow7Label" Height="30" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
                             <Label x:Name="DelayDimissLabel" Content="Dimiss Delay" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12"/>
-                            <Image x:Name="InfoRow7Column1" Source="/img/info_night.png" Height="15" Margin="-3,0,0,0" />
+                            <Image x:Name="InfoRow7Column1" Source="/img/info_night.png" Height="15" Margin="-3,0,0,0" ToolTipService.InitialShowDelay="400">
+                                    <Image.ToolTip>
+                                    <ToolTip x:Name="DelayDimissTooltip">
+                                        <StackPanel Width="430">
+                                            <StackPanel x:Name="DelayDimissTooltipHeader" Orientation="Horizontal" Background="Tan" Width="430">
+                                                <Label x:Name="DelayDimissTooltipHeaderValue" Content="Delay before dismissing the Capture screen" Margin="10 5" FontSize="20" FontWeight="Bold"></Label>
+                                            </StackPanel>
+                                            <TextBlock x:Name="DelayDimissTooltipDescription" Text="Delay before the tool presses the dismiss hotkey after capturing the fish. This is needed when you don't have all the alphas caught. If you have all the alphas caught and want to speed up the fishing loop a bit, you can change this down to 2000" FontSize="14" TextWrapping="WrapWithOverflow"></TextBlock>
+                                            <Line x:Name="DelayDimissTooltipLine" Stroke="Gray" StrokeThickness="2" X2="200" Margin="0,3,0,3"></Line>
+                                            <TextBlock x:Name="DelayDimissTooltipDefault" Text="Value in ms. Default Value: 4000" FontWeight="ExtraBold"></TextBlock>
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Image.ToolTip>
+                            </Image>
                         </StackPanel>
                         <TextBox x:Name="DimissDelayTextBox" TextChanged="DelayTextBox_TextChanged" PreviewTextInput="PositiveNumbersOnlyValidation" Width="90" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" TextAlignment="Center" />
                     </StackPanel>
@@ -100,7 +139,20 @@
                     <StackPanel x:Name="DelayFishCaptureGBox" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="1,0,1,0" >
                         <StackPanel x:Name="DelayRow7Column2Label" Height="30" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
                             <Label x:Name="DelayFishCaptureLabel" Content="Fish Capture Delay" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12"/>
-                            <Image x:Name="InfoRow7Column2" Source="/img/info_night.png" Height="15" Margin="-3,0,0,0" />
+                            <Image x:Name="InfoRow7Column2" Source="/img/info_night.png" Height="15" Margin="-3,0,0,0" ToolTipService.InitialShowDelay="400">
+                                <Image.ToolTip>
+                                    <ToolTip x:Name="DelayFishCaptureTooltip">
+                                        <StackPanel Width="430">
+                                            <StackPanel x:Name="DelayFishCaptureTooltipHeader" Orientation="Horizontal" Background="Tan" Width="430">
+                                                <TextBlock x:Name="DelayFishCaptureTooltipHeaderValue" TextWrapping="Wrap" Margin="10 5" FontSize="20" FontWeight="Bold">Delay before capturing fish after detected <LineBreak/>fish stamina has been depleted</TextBlock>
+                                            </StackPanel>
+                                            <TextBlock x:Name="DelayFishCaptureTooltipDescription" Text="Delay before the tool presses the reel-in hotkey. When the tool detects that the fish stamina is depleted, it will wait for this delay before capturing the fish. If you notice that the tool sometimes pre-emptively catches a fish on higher stamina fish or alphas, then increasing this delay will force the tool to wait longer before capturing the fish." FontSize="14" TextWrapping="WrapWithOverflow"></TextBlock>
+                                            <Line x:Name="DelayFishCaptureTooltipLine" Stroke="Gray" StrokeThickness="2" X2="200" Margin="0,3,0,3"></Line>
+                                            <TextBlock x:Name="DelayFishCaptureTooltipDefault" Text="Value in ms. Default Value: 3000" FontWeight="ExtraBold"></TextBlock>
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Image.ToolTip>
+                            </Image>
                         </StackPanel>
                         <TextBox x:Name="FishCaptureDelayTextBox" TextChanged="DelayTextBox_TextChanged" PreviewTextInput="PositiveNumbersOnlyValidation" Width="90" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" TextAlignment="Center" />
                     </StackPanel>
@@ -111,15 +163,44 @@
             <StackPanel Width="666" HorizontalAlignment="Left">
                 <StackPanel Width="256" Height="30" Orientation="Horizontal" HorizontalAlignment="Left">
                     <Label x:Name="DiscordUserIdLabel" Content="Discord User Id" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="12"/>
-                    <Image x:Name="DiscordInfoRow1" Source="/img/info_night.png" Height="15" Margin="-3,0,0,0" />
+                    <Image x:Name="DiscordInfoRow1" Source="/img/info_night.png" Height="15" Margin="-3,0,0,0" ToolTipService.InitialShowDelay="400">
+                        <Image.ToolTip>
+                            <ToolTip x:Name="DiscordUserIdTooltip">
+                                <StackPanel Width="360">
+                                    <StackPanel x:Name="DiscordUserIdTooltipHeader" Orientation="Horizontal" Background="Tan" Width="360">
+                                        <TextBlock x:Name="DiscordUserIdTooltipHeaderValue" TextWrapping="Wrap" Margin="10 5" FontSize="20" FontWeight="Bold">Discord User Id</TextBlock>
+                                    </StackPanel>
+                                    <TextBlock x:Name="DiscordUserIdTooltipDescription" Text="The User id that you want to be mentioned when you run out of bait. See Discord Notification Section in Github Page on how to get yours" FontSize="14" TextWrapping="WrapWithOverflow"></TextBlock>
+                                    <Line x:Name="DiscordUserIdTooltipLine" Stroke="Gray" StrokeThickness="2" X2="200" Margin="0,3,0,3"></Line>
+                                    <TextBlock x:Name="DiscordUserIdTooltipDefault" Text="Example: 123456789012345678 (Usually 18 characters long)" FontWeight="ExtraBold"></TextBlock>
+                                </StackPanel>
+                            </ToolTip>
+                        </Image.ToolTip>
+                    </Image>
                 </StackPanel>
                 <TextBox x:Name="DiscordUserIdTextBox" TextChanged="DelayTextBox_TextChanged" PreviewTextInput="PositiveNumbersOnlyValidation" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" TextAlignment="Center" Text="NOT_EMPTY" />
                 <StackPanel Width="756" Height="30" Orientation="Horizontal" HorizontalAlignment="Left">
-                    <Label x:Name="DiscordWeebHookLabel" Content="Discord Webhook URL" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="12"/>
-                    <Image x:Name="DiscordInfoRow2" Source="/img/info_night.png" Height="15" Margin="-3,0,0,0" />
+                    <Label x:Name="DiscordWebHookLabel" Content="Discord Webhook URL" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="12"/>
+                    <Image x:Name="DiscordInfoRow2" Source="/img/info_night.png" Height="15" Margin="-3,0,0,0">
+                        <Image.ToolTip>
+                            <ToolTip x:Name="DiscordWebHookTooltip">
+                                <StackPanel Width="330">
+                                    <StackPanel x:Name="DiscordWebHookTooltipHeader" Orientation="Horizontal" Background="Tan" Width="330">
+                                        <TextBlock x:Name="DiscordWebHookTooltipHeaderValue" TextWrapping="Wrap" Margin="10 5" FontSize="20" FontWeight="Bold">Discord Webhook URL</TextBlock>
+                                    </StackPanel>
+                                    <TextBlock x:Name="DiscordWebHookTooltipDescription" Text="The Discord Webhook URL that this tool will send a notification to when it runs out of bait. See Discord Notification Section in Github Page on how to setup yours" FontSize="14" TextWrapping="WrapWithOverflow"></TextBlock>
+                                    <Line x:Name="DiscordWebHookTooltipLine" Stroke="Gray" StrokeThickness="2" X2="200" Margin="0,3,0,3"></Line>
+                                    <TextBlock x:Name="DiscordWebHookTooltipDefault" Text="Example: https://discordapp.com/api/webhooks/xxxx" FontWeight="ExtraBold"></TextBlock>
+                                </StackPanel>
+                            </ToolTip>
+                        </Image.ToolTip>
+                    </Image>
                 </StackPanel>
-                <TextBox x:Name="DiscordWeebHookTextBox" TextChanged="DelayTextBox_TextChanged" Width="650" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" TextAlignment="Left" TextWrapping="Wrap" AcceptsReturn="True" Height="45" Text="NOT_EMPTY" />
+                <TextBox x:Name="DiscordWebHookTextBox" TextChanged="DelayTextBox_TextChanged" Width="650" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" TextAlignment="Left" TextWrapping="Wrap" AcceptsReturn="True" Height="45" Text="NOT_EMPTY" />
             </StackPanel>
         </GroupBox>
+        <Button x:Name="ResetBtn" Height="80" Width="105" Style="{StaticResource btnRoundDark}" BorderThickness="2,2,2,2" Margin="665,365,5,5" Click="ResetBtn_Click">
+            <TextBlock x:Name="ResetLabel" TextWrapping="Wrap" TextAlignment="Center" FontSize="22" Text="Reset All To Default"/>
+        </Button>
     </Grid>
 </Window>

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Runtime;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -91,7 +91,7 @@ namespace ToF_Fishing_Bot
             DimissDelayTextBox.Text = settings.Delay_DismissFishCaptureDialogue.ToString();
             FishCaptureDelayTextBox.Text = settings.Delay_FishCapture.ToString();
             DiscordUserIdTextBox.Text = settings.DiscordUserId;
-            DiscordWeebHookTextBox.Text = settings.DiscordHookUrl;
+            DiscordWebHookTextBox.Text = settings.DiscordHookUrl;
 
 
             if (MoveLeftBtn.Background.ToString().Equals(Theme.ButtonDefaultBGColor.ToString()) || MoveLeftBtn.Background.ToString().Equals(Theme.ColorAccent2.ToString()))
@@ -121,6 +121,13 @@ namespace ToF_Fishing_Bot
                 DismissBtn.Style = darkModeTheme ? Theme.DarkStyle : Theme.LightStyle;
                 DismissBtn.Foreground = darkModeTheme ? Theme.ColorAccent5 : Theme.BlackColor;
                 DismissDescription.Foreground = darkModeTheme ? Theme.ColorAccent5 : Theme.BlackColor;
+            }
+            if (ResetBtn.Background.ToString().Equals(Theme.ButtonDefaultBGColor.ToString()) || ResetBtn.Background.ToString().Equals(Theme.ColorAccent2.ToString()))
+            {
+                ResetBtn.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.ButtonDefaultBGColor;
+                ResetBtn.Style = darkModeTheme ? Theme.DarkStyle : Theme.LightStyle;
+                ResetBtn.Foreground = darkModeTheme ? Theme.ColorAccent5 : Theme.BlackColor;
+                MoveLeftDescription.Foreground = darkModeTheme ? Theme.ColorAccent5 : Theme.BlackColor;
             }
 
             // Row 1
@@ -166,10 +173,53 @@ namespace ToF_Fishing_Bot
             DiscordUserIdTextBox.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.WhiteColor;
             DiscordUserIdTextBox.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
 
-            DiscordWeebHookLabel.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            DiscordWebHookLabel.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
             DiscordInfoRow2.Source = darkModeTheme ? Theme.DayInfoImage : Theme.NightInfoImage;
-            DiscordWeebHookTextBox.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.WhiteColor;
-            DiscordWeebHookTextBox.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            DiscordWebHookTextBox.Background = darkModeTheme ? Theme.ColorAccent2 : Theme.WhiteColor;
+            DiscordWebHookTextBox.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+
+            // Tooltips
+            DelayRestartTooltip.Background = darkModeTheme ? Theme.ColorAccent1 : Theme.WhiteColor;
+            DelayRestartTooltipHeader.Background = darkModeTheme ? Theme.ColorAccent2 : System.Windows.Media.Brushes.Tan;
+            DelayRestartTooltipHeaderValue.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            DelayRestartTooltipDescription.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            DelayRestartTooltipLine.Stroke = darkModeTheme ? Theme.ColorAccent5 : System.Windows.Media.Brushes.Gray;
+            DelayRestartTooltipDefault.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+
+            DelayLagCompensationTooltip.Background = darkModeTheme ? Theme.ColorAccent1 : Theme.WhiteColor;
+            DelayLagCompensationTooltipHeader.Background = darkModeTheme ? Theme.ColorAccent2 : System.Windows.Media.Brushes.Tan;
+            DelayLagCompensationTooltipHeaderValue.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            DelayLagCompensationTooltipDescription.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            DelayLagCompensationTooltipLine.Stroke = darkModeTheme ? Theme.ColorAccent5 : System.Windows.Media.Brushes.Gray;
+            DelayLagCompensationTooltipDefault.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+
+            DelayDimissTooltip.Background = darkModeTheme ? Theme.ColorAccent1 : Theme.WhiteColor;
+            DelayDimissTooltipHeader.Background = darkModeTheme ? Theme.ColorAccent2 : System.Windows.Media.Brushes.Tan;
+            DelayDimissTooltipHeaderValue.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            DelayDimissTooltipDescription.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            DelayDimissTooltipLine.Stroke = darkModeTheme ? Theme.ColorAccent5 : System.Windows.Media.Brushes.Gray;
+            DelayDimissTooltipDefault.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+
+            DelayFishCaptureTooltip.Background = darkModeTheme ? Theme.ColorAccent1 : Theme.WhiteColor;
+            DelayFishCaptureTooltipHeader.Background = darkModeTheme ? Theme.ColorAccent2 : System.Windows.Media.Brushes.Tan;
+            DelayFishCaptureTooltipHeaderValue.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            DelayFishCaptureTooltipDescription.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            DelayFishCaptureTooltipLine.Stroke = darkModeTheme ? Theme.ColorAccent5 : System.Windows.Media.Brushes.Gray;
+            DelayFishCaptureTooltipDefault.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+
+            DiscordUserIdTooltip.Background = darkModeTheme ? Theme.ColorAccent1 : Theme.WhiteColor;
+            DiscordUserIdTooltipHeader.Background = darkModeTheme ? Theme.ColorAccent2 : System.Windows.Media.Brushes.Tan;
+            DiscordUserIdTooltipHeaderValue.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            DiscordUserIdTooltipDescription.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            DiscordUserIdTooltipLine.Stroke = darkModeTheme ? Theme.ColorAccent5 : System.Windows.Media.Brushes.Gray;
+            DiscordUserIdTooltipDefault.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+
+            DiscordWebHookTooltip.Background = darkModeTheme ? Theme.ColorAccent1 : Theme.WhiteColor;
+            DiscordWebHookTooltipHeader.Background = darkModeTheme ? Theme.ColorAccent2 : System.Windows.Media.Brushes.Tan;
+            DiscordWebHookTooltipHeaderValue.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            DiscordWebHookTooltipDescription.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
+            DiscordWebHookTooltipLine.Stroke = darkModeTheme ? Theme.ColorAccent5 : System.Windows.Media.Brushes.Gray;
+            DiscordWebHookTooltipDefault.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
         }
         private void HandleHotkeyButtonClick(
             Button btn,
@@ -253,7 +303,7 @@ namespace ToF_Fishing_Bot
         }
 
         private void ResetHotkeyLabels(
-            TextBlock label, 
+            TextBlock label,
             bool resetText = true)
         {
             label.FontSize = 24;
@@ -268,8 +318,8 @@ namespace ToF_Fishing_Bot
         private void SettingsWindow1_Closed(object sender, EventArgs e)
         {
             m_GlobalHook.KeyUp -= GlobalHookKeyUp;
-            if(string.IsNullOrEmpty(settings.DiscordHookUrl) is false && 
-                string.IsNullOrEmpty(settings.DiscordUserId) is false && 
+            if(string.IsNullOrEmpty(settings.DiscordHookUrl) is false &&
+                string.IsNullOrEmpty(settings.DiscordUserId) is false &&
                 (_updateDiscordUrl > 2 && _updateDiscordUser > 2))
             {
                 try
@@ -328,7 +378,7 @@ namespace ToF_Fishing_Bot
                     }
                     _updateDiscordUser++;
                     break;
-                case "DiscordWeebHookTextBox":
+                case "DiscordWebHookTextBox":
                     if (_updateDiscordUrl > 1)
                     {
                         settings.DiscordHookUrl = value;
@@ -336,6 +386,24 @@ namespace ToF_Fishing_Bot
                     _updateDiscordUrl++;
                     break;
             }
+        }
+
+        private void ResetBtn_Click(object sender, RoutedEventArgs e)
+        {
+            settings.KeyCode_MoveLeft = 65;
+            settings.KeyCode_MoveRight = 68;
+            settings.KeyCode_FishCapture = 49;
+            settings.KeyCode_DismissFishDialogue = 27;
+
+            settings.Delay_LagCompensation = 5000;
+            settings.Delay_FishCapture = 3000;
+            settings.Delay_DismissFishCaptureDialogue = 4000;
+            settings.Delay_Restart = 2000;
+
+            settings.DiscordHookUrl = "";
+            settings.DiscordUserId = "";
+
+            InitTheme(settings.IsDarkMode == 1);
         }
     }
 }
