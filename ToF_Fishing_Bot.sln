@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToF_Fishing_Bot", "ToF_Fishing_Bot\ToF_Fishing_Bot.csproj", "{2A719887-EE19-4FCC-99B1-47D4A615651A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsInput", "..\inputsimulator\WindowsInput\WindowsInput.csproj", "{3549CD6F-80F8-450F-B99E-CF0A736B1F2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsInput", "WindowsInput\WindowsInput\WindowsInput.csproj", "{3549CD6F-80F8-450F-B99E-CF0A736B1F2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

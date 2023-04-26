@@ -1,0 +1,3 @@
+[submodule ".\\WindowsInput"]
+	path = .\\WindowsInput
+	url = https://github.com/mdnpascual/inputsimulator.git

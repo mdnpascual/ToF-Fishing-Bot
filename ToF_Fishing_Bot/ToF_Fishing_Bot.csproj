@@ -49,7 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\inputsimulator\WindowsInput\WindowsInput.csproj" />
+    <ProjectReference Include="..\WindowsInput\WindowsInput\WindowsInput.csproj" />
   </ItemGroup>
 
   <ItemGroup>
