@@ -361,16 +361,17 @@ namespace ToF_Fishing_Bot
 
         private void SaveSettings(string textBoxName, string value)
         {
+            int parsedInt = int.TryParse(value, out parsedInt) ? parsedInt : 0;
             switch (textBoxName)
             {
                 case "RestartDelayTextBox":
-                    settings.Delay_Restart = int.Parse(value); break;
+                    settings.Delay_Restart = parsedInt; break;
                 case "LagCompensationDelayTextBox":
-                    settings.Delay_LagCompensation = int.Parse(value); break;
+                    settings.Delay_LagCompensation = parsedInt; break;
                 case "DimissDelayTextBox":
-                    settings.Delay_DismissFishCaptureDialogue = int.Parse(value); break;
+                    settings.Delay_DismissFishCaptureDialogue = parsedInt; break;
                 case "FishCaptureDelayTextBox":
-                    settings.Delay_FishCapture = int.Parse(value); break;
+                    settings.Delay_FishCapture = parsedInt; break;
                 case "DiscordUserIdTextBox":
                     if (_updateDiscordUser > 1)
                     {
