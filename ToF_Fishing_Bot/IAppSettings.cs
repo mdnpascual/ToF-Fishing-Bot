@@ -81,5 +81,9 @@ namespace ToF_Fishing_Bot
         string DiscordHookUrl { get; set; }
         [DefaultValue("")]
         string DiscordUserId { get; set; } // Put value here if you want the tool mention you
+        [DefaultValue(0)]
+        int DefaultAdapter { get; set; }
+        [DefaultValue(0)]
+        int DefaultDevice { get; set; }
     }
 }

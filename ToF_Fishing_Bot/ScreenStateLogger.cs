@@ -16,11 +16,12 @@ namespace ToF_Fishing_Bot
     {
         private byte[] _previousScreen;
         private bool _run, _init;
+        private IAppSettings settings;
 
         public int Size { get; private set; }
-        public ScreenStateLogger()
+        public ScreenStateLogger(IAppSettings _settings)
         {
-
+            settings = _settings;
         }
 
         public void Start()
@@ -28,11 +29,13 @@ namespace ToF_Fishing_Bot
             _run = true;
             var factory = new Factory1();
             //Get first adapter
-            var adapter = factory.GetAdapter1(0);
+            var adapter = factory.GetAdapter1(settings.DefaultAdapter);
+            var breh = factory.Adapters;
             //Get device from adapter
             var device = new SharpDX.Direct3D11.Device(adapter);
             //Get front buffer of the adapter
-            var output = adapter.GetOutput(0);
+            
+            var output = adapter.GetOutput(settings.DefaultDevice);
             var output1 = output.QueryInterface<Output1>();
 
             // Width/Height of desktop to OldCapture

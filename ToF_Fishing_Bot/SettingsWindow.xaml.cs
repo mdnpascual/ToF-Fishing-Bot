@@ -1,5 +1,7 @@
-﻿using System;
+﻿using SharpDX.DXGI;
+using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -28,11 +30,27 @@ namespace ToF_Fishing_Bot
         private int _updateDiscordUser = 0;
         private int _updateDiscordUrl = 0;
 
+        private Factory1 factory = new Factory1();
+
         public SettingsWindow(
             IAppSettings _settings,
             IKeyboardMouseEvents _m_GlobalHook)
         {
             InitializeComponent();
+
+            var adapters = factory.Adapters;
+            var adapters1 = factory.Adapters1;
+            var breh = adapters.Select(adapter => new { name = adapter.Description.Description, count = adapter.GetOutputCount()});
+            var brehbreh = adapters1.Select(adapter => new { name = adapter.Description.Description, count = adapter.GetOutputCount() });
+            foreach (var breh1 in breh)
+            {
+                GPUList.Items.Add(breh1.name + " (" + breh1.count + ")");
+            }
+            GPUList.Items.Add("--------");
+            foreach (var breh1 in brehbreh)
+            {
+                GPUList.Items.Add(breh1.name + " (" + breh1.count + ")");
+            }
 
             settings = _settings;
             m_GlobalHook = _m_GlobalHook;
@@ -92,6 +110,7 @@ namespace ToF_Fishing_Bot
             FishCaptureDelayTextBox.Text = settings.Delay_FishCapture.ToString();
             DiscordUserIdTextBox.Text = settings.DiscordUserId;
             DiscordWebHookTextBox.Text = settings.DiscordHookUrl;
+            GPUList.SelectedIndex = settings.DefaultAdapter;
 
 
             if (MoveLeftBtn.Background.ToString().Equals(Theme.ButtonDefaultBGColor.ToString()) || MoveLeftBtn.Background.ToString().Equals(Theme.ColorAccent2.ToString()))
@@ -150,6 +169,8 @@ namespace ToF_Fishing_Bot
             // Row 4
             ArrowRow4Column1.Source = RotateImage(darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage, 270);
             ArrowRow4Column2.Source = RotateImage(darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage, 90);
+            // Row 5
+            GPULabel.Foreground = darkModeTheme ? Theme.ColorAccent4 : Theme.BlackColor;
             // Row 6
             ArrowRow6Column1.Source = RotateImage(darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage, 270);
             ArrowRow6Column2.Source = RotateImage(darkModeTheme ? Theme.DayArrowImage : Theme.NightArrowImage, 90);
@@ -405,6 +426,11 @@ namespace ToF_Fishing_Bot
             settings.DiscordUserId = "";
 
             InitTheme(settings.IsDarkMode == 1);
+        }
+
+        private void GPUList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            settings.DefaultAdapter = GPUList.SelectedIndex;
         }
     }
 }

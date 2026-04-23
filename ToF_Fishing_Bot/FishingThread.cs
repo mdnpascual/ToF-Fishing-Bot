@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -98,7 +99,7 @@ namespace ToF_Fishing_Bot
             colorThreshold = settings.StaminaColorDetectionThreshold;
             middleBarCenterThreshold = settings.MiddlebarColorDetectionThreshold;
 
-            screenStateLogger = new ScreenStateLogger();
+            screenStateLogger = new ScreenStateLogger(_settings);
 
             if (!string.IsNullOrEmpty(_settings.DiscordHookUrl))
             {
@@ -390,7 +391,7 @@ namespace ToF_Fishing_Bot
         {
             _lastResetTime = null;
             screenStateLogger.Stop();
-            screenStateLogger = new ScreenStateLogger();
+            screenStateLogger = new ScreenStateLogger(settings);
         }
 
         public double GetMiddleBarAveragePos(Mat frame)

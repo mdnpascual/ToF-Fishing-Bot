@@ -31,7 +31,8 @@ public class DiscordService : IDiscordService
         if (Uri.IsWellFormedUriString(hookUrl, UriKind.Absolute))
         {
             var uri = new Uri(hookUrl);
-            if (!uri.Host.Contains("discord.com", StringComparison.CurrentCultureIgnoreCase))
+            if (!(uri.Host.Contains("discord.com", StringComparison.CurrentCultureIgnoreCase) ||
+                uri.Host.Contains("discordapp.com", StringComparison.CurrentCultureIgnoreCase)))
             {
                 throw new ArgumentException("Discord HookUrl provided is not valid");
             }

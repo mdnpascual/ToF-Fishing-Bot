@@ -115,4 +115,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="ComboBox">
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
 </ResourceDictionary>
